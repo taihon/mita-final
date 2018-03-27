@@ -19,7 +19,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MITA.Auth\MITA.Auth.csproj" />
+    <ProjectReference Include="..\MITA.DAL.Implementation\MITA.DAL.Implementation.csproj" />
+    <ProjectReference Include="..\MITA.DAL\MITA.DAL.csproj" />
     <ProjectReference Include="..\MITA.DB\MITA.DB.csproj" />
+    <ProjectReference Include="..\MITA.ViewModels\MITA.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

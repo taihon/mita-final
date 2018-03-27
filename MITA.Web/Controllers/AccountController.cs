@@ -67,7 +67,7 @@ namespace MITA.Web.Controllers
         private async Task<string> GenerateToken(string email, User user) {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));

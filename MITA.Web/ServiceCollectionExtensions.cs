@@ -13,7 +13,7 @@ namespace MITA.Web
         public static IServiceCollection AddDIImplementations(this IServiceCollection services)
         {
             services.AddTransient<IProjectsListQuery, ProjectsListQuery>();
-
+            services.AddTransient<ICreateProjectCommand, CreateProjectCommand>();
             return services;
         }
     }

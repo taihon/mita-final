@@ -13,7 +13,7 @@ namespace MITA.Entities
         public string Title { get; set; }
         [MaxLength(2000)]
         public string Description { get; set; }
-        public List<ProjecTask> MyProperty { get; set; }
+        public List<ProjecTask> Tasks { get; set; }
         public Guid OwnerId { get; set; }
         public bool Archived { get; set; }
     }

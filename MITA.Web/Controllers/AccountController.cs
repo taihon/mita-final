@@ -17,7 +17,6 @@ namespace MITA.Web.Controllers
 {
     [Produces("application/json")]
     [Route("api/account")]
-    [Authorize]
     public class AccountController : Controller
     {
         private readonly SignInManager<User> _signInManager;
@@ -33,7 +32,7 @@ namespace MITA.Web.Controllers
         [HttpPost]
         [ProducesResponseType(404)]
         [ProducesResponseType(200)]
-        [AllowAnonymous]
+        [Route("register")]
         public async Task<IActionResult> Register([FromBody]UserRegisterRequest request, string ReturnUrl = null)
         {
             if (ModelState.IsValid)
@@ -49,6 +48,22 @@ namespace MITA.Web.Controllers
             }
             return BadRequest(ModelState.Values.SelectMany(t=>t.Errors));
         }
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody]UserLoginRequest request, string ReturnUrl = null)
+        {
+            var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
+            if (result.Succeeded)
+            {
+                var user = _userManager.Users.FirstOrDefault(t => t.Email == request.Email);
+                var jwt = await GenerateToken(request.Email, user);
+                return Ok(new { token = jwt });
+            }
+            return StatusCode((int)StatusCodes.Status403Forbidden, "Authentication failure");
+        }
+
         private async Task<string> GenerateToken(string email, User user) {
             var claims = new List<Claim>
             {

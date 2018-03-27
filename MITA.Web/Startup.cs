@@ -13,6 +13,8 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using MITA.DB;
+using Microsoft.EntityFrameworkCore;
 
 namespace MITA.Web
 {
@@ -48,6 +50,7 @@ namespace MITA.Web
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            services.AddTasksDB(Configuration);
             services.AddAuthentication();
             services.AddMvc();
         }

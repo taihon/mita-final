@@ -4,4 +4,20 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20180327070735_InitialCreateDB.cs" />
+    <Compile Remove="Migrations\20180327071134_InitialCreateDB.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="microsoft.entityframeworkcore" Version="2.0.2" />
+    <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="2.0.2" />
+    <PackageReference Include="microsoft.extensions.configuration" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MITA.Entities\MITA.Entities.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MITA.Auth\MITA.Auth.csproj" />
+    <ProjectReference Include="..\MITA.DB\MITA.DB.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,7 +8,7 @@ namespace MITA.Auth
 {
     public class AuthDbContext : IdentityDbContext<User,Role,Guid>
     {
-        public AuthDbContext(DbContextOptions options) : base(options)
+        public AuthDbContext(DbContextOptions<AuthDbContext> options) : base(options)
         {
         }
 

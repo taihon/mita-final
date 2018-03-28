@@ -10,7 +10,7 @@ namespace MITA.DB
     public class TasksContext : DbContext
     {
         public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjecTask> Tasks { get; set; }
+        public DbSet<ProjectTask> Tasks { get; set; }
         public TasksContext(DbContextOptions options) : base(options)
         {
         }

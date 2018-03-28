@@ -50,5 +50,15 @@ namespace MITA.Web.Controllers
             var response = await command.ExecuteAsync(taskId, request);
             return response == null ? (IActionResult)NotFound() : Ok(response);
         }
+        [HttpDelete]
+        [Route("{taskId}")]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> DeleteTaskAsync(int taskId, [FromServices]IDeleteTaskCommand command)
+        {
+            //TODO: think of a way to require confirmation on server side
+            //TODO: check if user is owner of tasks project
+            await command.ExecuteAsync(taskId);
+            return NoContent();
+        }
     }
 }

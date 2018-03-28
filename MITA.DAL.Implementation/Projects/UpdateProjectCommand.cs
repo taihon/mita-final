@@ -35,7 +35,8 @@ namespace MITA.DAL.Implementation.Projects
                 {
                     Title = foundProject.Title,
                     Description = foundProject.Description,
-                    Id = foundProject.Id
+                    Id = foundProject.Id,
+                    Archived = foundProject.Archived
                 };
         }
     }

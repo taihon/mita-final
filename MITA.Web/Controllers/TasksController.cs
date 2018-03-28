@@ -24,5 +24,21 @@ namespace MITA.Web.Controllers
             ListResponse<ProjectTaskResponse> response = await query.RunAsync(projectId);
             return Ok(response);
         }
+        [HttpPost]
+        [ProducesResponseType(200,Type=typeof(ProjectTaskResponse))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> CreateTaskAsync(
+            int projectId,
+            [FromBody]CreateTaskRequest request,
+            [FromServices]ICreateTaskCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            //TODO: check if user is owner of project
+            var task = await command.ExecuteAsync(request);
+            return Ok(task);
+        }
     }
 }

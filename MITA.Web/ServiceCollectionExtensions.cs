@@ -24,6 +24,7 @@ namespace MITA.Web
 
             //tasks
             services.AddTransient<ITasksListQuery, TasksListQuery>();
+            services.AddTransient<ICreateTaskCommand, CreateTaskCommand>();
             return services;
         }
     }

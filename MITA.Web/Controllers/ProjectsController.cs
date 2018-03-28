@@ -57,5 +57,33 @@ namespace MITA.Web.Controllers
             await command.ExecuteAsync(request);
             return NoContent();
         }
+        [HttpPut]
+        [Route("{projectId}")]
+        [ProducesResponseType(200, Type =typeof(ProjectResponse))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> UpdateProjectAsync([FromBody]UpdateProjectRequest request, [FromServices]IUpdateProjectCommand command)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            ProjectResponse response = await command.ExecuteAsync(request);
+            return response == null ? (IActionResult)NotFound() : Ok(response);
+        }
+        [HttpPost]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [Route("{projectId}/restore")]
+        public async Task<IActionResult> RestoreProjectAsync(int projectId, [FromServices]IRestoreProjectCommand command)
+        {
+            if (projectId == 0)
+            {
+                return BadRequest("You must provide valid projectId");
+            }
+            var restorationResult = await command.ExecuteAsync(projectId);
+            return restorationResult ? (IActionResult)NoContent() : NotFound();
+        }
     }
 }

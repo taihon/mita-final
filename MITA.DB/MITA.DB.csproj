@@ -8,6 +8,7 @@
     <Compile Remove="Migrations\20180327070735_InitialCreateDB.cs" />
     <Compile Remove="Migrations\20180327071134_InitialCreateDB.cs" />
     <Compile Remove="Migrations\20180327102333_RenameTasksProperty.cs" />
+    <Compile Remove="Migrations\20180328053444_AddChildrensProperty.cs" />
   </ItemGroup>
 
   <ItemGroup>

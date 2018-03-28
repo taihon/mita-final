@@ -40,5 +40,15 @@ namespace MITA.Web.Controllers
             var task = await command.ExecuteAsync(request);
             return Ok(task);
         }
+        [HttpPut]
+        [ProducesResponseType(200, Type = typeof(ProjectTaskResponse))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [Route("{taskId}")]
+        public async Task<IActionResult> UpdateTaskAsync(int taskId, [FromBody]UpdateTaskRequest request, [FromServices]IUpdateTaskCommand command)
+        {
+            var response = await command.ExecuteAsync(taskId, request);
+            return response == null ? (IActionResult)NotFound() : Ok(response);
+        }
     }
 }

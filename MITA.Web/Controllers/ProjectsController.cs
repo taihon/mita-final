@@ -42,5 +42,20 @@ namespace MITA.Web.Controllers
             ProjectResponse response = await query.RunAsync(projectId);
             return response == null ? (IActionResult)NotFound() : Ok(response);
         }
+        [HttpPost]
+        [Route("{projectId}/archive")]
+        public async Task<IActionResult> ArchiveProjectAsync([FromBody]ArchiveProjectRequest request, [FromServices]IArchiveProjectCommand command)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!request.Confirm)
+            {
+                return BadRequest($"Cannot archive project with id {request.ProjectId}. Operation requires confirmation");
+            }
+            await command.ExecuteAsync(request);
+            return NoContent();
+        }
     }
 }

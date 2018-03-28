@@ -17,6 +17,7 @@ namespace MITA.Web
             services.AddTransient<IArchiveProjectCommand, ArchiveProjectCommand>();
             services.AddTransient<IUpdateProjectCommand, UpdateProjectCommand>();
             services.AddTransient<IRestoreProjectCommand, RestoreProjectCommand>();
+            services.AddTransient<IProjectQuery, ProjectQuery>();
             return services;
         }
     }

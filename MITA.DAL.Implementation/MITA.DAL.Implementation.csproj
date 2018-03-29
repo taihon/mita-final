@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MITA.DAL\MITA.DAL.csproj" />
+    <ProjectReference Include="..\MITA.DB\MITA.DB.csproj" />
+  </ItemGroup>
+
 </Project>

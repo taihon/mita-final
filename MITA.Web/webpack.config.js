@@ -7,9 +7,11 @@ const bundleFolder = "./wwwroot/assets/";
 const srcFolder = "./Client/"
 
 module.exports = {
-    entry: [
-        srcFolder + "index.jsx" 
-    ], 
+    entry: {
+        main: [
+            srcFolder + "index.jsx"
+        ]
+    }, 
     devtool: "source-map",
     output: {
         filename: "bundle.js",
@@ -17,13 +19,13 @@ module.exports = {
         path: path.resolve(__dirname, bundleFolder)
     },
     module: {
-        rules: [
+        loaders: [
             {
                 test: /\.jsx$/,
-                exclude: /(node_modules)/,
+                exclude: /node_modules/,
                 loader: "babel-loader",
                 query: {
-                    presets: ["es2015", "stage-0", "react"]
+                    presets: ["es2015", "stage-0", "react", "react-hmre"]
                 }
             }
         ]

@@ -62,6 +62,7 @@ namespace MITA.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware();
             }
             app.UseAuthentication();
             app.UseMvc();

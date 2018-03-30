@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 export const Page = styled.div`
-top:56px;
+top:64px;
 position:fixed;
 `

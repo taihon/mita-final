@@ -20,7 +20,8 @@ export class NavItems extends Component {
         items: [
             { caption: "Home", location: "/", exact: true, id: 1 },
             { caption: "Projects", location: "/projects", exact: true, id: 2 },
-            { caption: "Project archive", location: "/projects/archived", id: 3 }
+            { caption: "Archive!", location: "/projects/archived", id: 3 },
+            { caption: "Login", location: "/login", id: 4 }
         ]
     }
     render() {

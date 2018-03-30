@@ -1,4 +1,5 @@
-export { login, logout } from './authActions'
+export { login, logout } from './authActions';
+export { requestProjects } from './projectActions';
 if (module.hot) {
-    module.hot.accept()
+    module.hot.accept();
 }

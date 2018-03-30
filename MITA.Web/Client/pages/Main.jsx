@@ -1,4 +1,8 @@
 import React from 'react';
+import { Page } from '../components/page/Page';
+
 export const Main = (props) => (
-    <h3>Main page</h3>
+    <Page>
+        <h3>Main page</h3>
+    </Page>
 )

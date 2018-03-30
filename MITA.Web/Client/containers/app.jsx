@@ -2,6 +2,8 @@
 import { Route, NavLink } from "react-router-dom";
 
 import { ArchivedProjects, Main, Projects } from "../pages";
+import { ToolBar } from '../components/navigation/toolbar/Toolbar';
+import '../app.css';
 
 export class App extends Component {
     render() {
@@ -12,12 +14,7 @@ export class App extends Component {
         </React.Fragment>;
         return (
             <div className="App">
-                <h1>Hello</h1>
-                <ul>
-                    <li><NavLink to="/">Main</NavLink></li>
-                    <li><NavLink to="/projects">Projects</NavLink></li>
-                    <li><NavLink to="/projects/archived">Archived projects</NavLink></li>
-                </ul>
+                <ToolBar />
                 {routes}
             </div>
         );

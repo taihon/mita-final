@@ -18,6 +18,6 @@ export const ToolBar = (props) => {
         z-index: 90;
     `;
     return (
-        <Bar><NavItems IsAuthenticated /></Bar>
+        <Bar><NavItems IsAuthenticated={props.IsAuthenticated} /></Bar>
     );
 }

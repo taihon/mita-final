@@ -17,15 +17,20 @@ const ItemsList = styled.ul`
         `;
 export class NavItems extends Component {
     state = {
-        items: [
+
+    }
+    render() {
+        const loggedOn = [
             { caption: "Home", location: "/", exact: true, id: 1 },
             { caption: "Projects", location: "/projects", exact: true, id: 2 },
             { caption: "Archive!", location: "/projects/archived", id: 3 },
-            { caption: "Login", location: "/login", id: 4 }
-        ]
-    }
-    render() {
-        const shownItems = !this.props.IsAuthenticated ? null : this.state.items.map(item => <NavItem
+            { caption: "Logout", location: "/logout", id: 4 },
+        ];
+        const notLoggedOn = [
+            { caption: "Home", location: "/", exact: true, id: 1 },
+            { caption: "Login", location: "/login", id: 2 }
+        ];
+        const shownItems = (!this.props.IsAuthenticated ? notLoggedOn : loggedOn).map(item => <NavItem
             to={item.location}
             exact={item.exact}
             title={item.caption}

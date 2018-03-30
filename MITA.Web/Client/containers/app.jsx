@@ -4,9 +4,10 @@ import { Route, NavLink } from "react-router-dom";
 import { ArchivedProjects, Main, Projects } from "../pages";
 import { ToolBar } from '../components/navigation/toolbar/Toolbar';
 import '../app.css';
-import { Login } from '../pages/Login';
+import Login from '../pages/Login';
+import { hot } from "react-hot-loader";
 
-export class App extends Component {
+class App extends Component {
     render() {
         let routes = <React.Fragment>
             <Route path="/" exact component={Main} />
@@ -22,3 +23,4 @@ export class App extends Component {
         );
     }
 }
+export default hot(module)(App)

@@ -15,18 +15,18 @@ module.exports = {
     devtool: "source-map",
     output: {
         filename: "bundle.js",
-        publicPath: 'assets/',
-        path: path.resolve(__dirname, bundleFolder)
+        publicPath: '/assets/',
+        path: path.resolve(__dirname, 'wwwroot/assets')
     },
     module: {
         loaders: [
             {
                 test: [/\.jsx$/,/\.js$/],
                 exclude: /node_modules/,
-                loader: "babel-loader",
-                query: {
-                    presets: ["es2015", "stage-0", "react", "react-hmre"]
-                }
+                loaders: "babel-loader",
+                options: {
+                    presets: ["es2015", "stage-0", "react"]
+                },
             },
             {
                 test: /\.css/,

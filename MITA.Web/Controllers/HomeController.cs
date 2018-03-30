@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MITA.Web.Controllers
 {
-    [Route("/")]
     public class HomeController : Controller
     {
         public IActionResult Index()

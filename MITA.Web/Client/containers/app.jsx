@@ -7,8 +7,12 @@ import { ArchivedProjects, Main, Projects } from "../pages";
 import { ToolBar } from '../components/navigation/toolbar/Toolbar';
 import '../app.css';
 import Login from '../pages/Login';
+import { checkAuthStatus } from '../store/actions';
 
 class App extends Component {
+    componentDidMount() {
+        this.props.tryAutoLogin();
+    }
     render() {
         let routes = <Switch>
             <Route path="/projects/archived" component={ArchivedProjects} />
@@ -39,4 +43,9 @@ const mapStateToProps = state => {
         isAuthenticated: state.auth.token != null
     }
 }
-export default hot(module)(withRouter(connect(mapStateToProps, null)(App)))
+const mapDispatchToProps = dispatch => {
+    return {
+        tryAutoLogin: () => dispatch(checkAuthStatus())
+    }
+}
+export default hot(module)(withRouter(connect(mapStateToProps, mapDispatchToProps)(App)))

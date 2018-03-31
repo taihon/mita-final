@@ -7,6 +7,9 @@ export const requestProjects = () => {
         axios.get("/api/projects", {
             headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
         })
-            .then(data => console.log(data));
+            .then(response => {
+                dispatch({ type: actionTypes.FETCH_PROJECTS_SUCCESS, payload: { ...response.data } })
+            })
+            .catch(error => dispatch({ type: actionTypes.FETCH_PROJECTS_FAILURE }));
     }
 }

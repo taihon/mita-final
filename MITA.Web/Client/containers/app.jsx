@@ -14,26 +14,27 @@ class App extends Component {
         this.props.tryAutoLogin();
     }
     render() {
-        let routes = <Switch>
+        let routes = <React.Fragment>
             <Route path="/projects/archived" component={ArchivedProjects} />
             <Route path="/projects" component={Projects} />
             <Route path="/logout" component={Login} />
             <Route path="/" exact component={Main} />
-            <Redirect to="/" />
-        </Switch>;
+        </React.Fragment>;
         if (!this.props.isAuthenticated) {
             routes = (
-                <Switch>
+                <React.Fragment>
                     <Route path="/login" component={Login} />
                     <Route path="/" exact component={Main} />
-                    <Redirect to="/" />
-                </Switch>
+                </React.Fragment>
             );
         }
         return (
             <div className="App">
                 <ToolBar IsAuthenticated={this.props.isAuthenticated} />
-                {routes}
+                <Switch>
+                    {routes}
+                    <Redirect to="/" />
+                </Switch>
             </div>
         );
     }

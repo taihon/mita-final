@@ -9,14 +9,10 @@ import * as actions from '../../../store/actions';
 import { Spinner } from '../../../components/spinner/Spinner';
 
 class ProjectsList extends Component {
-    componentWillMount() {
-        this.props.onRequestProjects();
-    }
     componentDidMount() {
         this.props.onRequestProjects();
     }
     render() {
-
         const content = this.props.isLoading
             ? <Spinner />
             : this.props.projects.map(item => <Project {...item} key={item.id} />);

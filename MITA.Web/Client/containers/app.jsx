@@ -16,7 +16,7 @@ class App extends Component {
     render() {
         let routes = <Switch>
             <Route path="/projects/archived" component={ArchivedProjects} />
-            <Route path="/projects" exact component={Projects} />
+            <Route path="/projects" component={Projects} />
             <Route path="/logout" component={Login} />
             <Route path="/" exact component={Main} />
             <Redirect to="/" />

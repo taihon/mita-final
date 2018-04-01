@@ -1,40 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Switch, Route, withRouter } from 'react-router-dom';
 
 import { Page } from '../../components/page/Page';
-import * as actions from '../../store/actions';
-import { Spinner } from '../../components/spinner/Spinner';
-import { Project } from './Project/Project';
-import { ProjectsList } from './ProjectsList/ProjectsList';
+import AddProject from './AddProject/AddProject';
+import ProjectsList from './ProjectsList/ProjectsList';
 
 class Projects extends Component {
-    componentWillMount() {
-        this.props.onRequestProjects();
-    }
-    componentDidMount() {
-        this.props.onRequestProjects();
-    }
     render() {
-        const content = this.props.isLoading
-            ? <Spinner />
-            : <ProjectsList items={this.props.projects} />
         return (
             <Page>
                 <h3>Projects page</h3>
-                {content}
+                <Switch>
+                    <Route path={this.props.match.path + "/add"} component={AddProject} />
+                    <Route path="/" component={ProjectsList} />
+                </Switch>
             </Page>
         )
     }
 }
-const mapStateToProps = state => {
-    return {
-        projects: state.projects.projects,
-        isLoading: state.projects.isLoading
-    }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        onRequestProjects: () => dispatch(actions.requestProjects())
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Projects)
+export default withRouter(Projects)

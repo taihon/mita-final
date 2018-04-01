@@ -10,7 +10,6 @@ class Projects extends Component {
     render() {
         return (
             <Page>
-                <h3>Projects page</h3>
                 <Switch>
                     <Route path={this.props.match.path + "/add"} component={AddProject} />
                     <Route path="/" component={ProjectsList} />

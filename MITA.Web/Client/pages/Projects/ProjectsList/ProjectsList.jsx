@@ -18,6 +18,7 @@ class ProjectsList extends Component {
             : this.props.projects.map(item => <Project {...item} key={item.id} />);
         return (
             <div>
+                <h4>This is list of your actve projects</h4>
                 <NavLink to={this.props.location.pathname + "/add"}><button>Create new</button></NavLink>
                 {content}
             </div >

@@ -5,6 +5,7 @@ import { Page } from '../../components/page/Page';
 import * as actions from '../../store/actions';
 import { Spinner } from '../../components/spinner/Spinner';
 import { Project } from './Project/Project';
+import { ProjectsList } from './ProjectsList/ProjectsList';
 
 class Projects extends Component {
     componentWillMount() {
@@ -16,7 +17,7 @@ class Projects extends Component {
     render() {
         const content = this.props.isLoading
             ? <Spinner />
-            : this.props.projects.map(project => <Project {...project} key={project.id} />)
+            : <ProjectsList items={this.props.projects} />
         return (
             <Page>
                 <h3>Projects page</h3>

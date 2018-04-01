@@ -9,5 +9,6 @@ border: 2px solid green;
 export const Project = (props) => (
     <Presenter>
         <span>{props.title}</span>
+        <p>{props.description}</p>
     </Presenter>
 );

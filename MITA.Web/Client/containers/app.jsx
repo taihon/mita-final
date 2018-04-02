@@ -1,9 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Route, NavLink, Redirect, withRouter, Switch } from "react-router-dom";
-import { hot } from "react-hot-loader";
 import { connect } from 'react-redux';
 
-import { ArchivedProjects, Main, Projects } from "../pages";
+import { Main, Projects } from "../pages";
 import { ToolBar } from '../components/navigation/toolbar/Toolbar';
 import '../app.css';
 import Login from '../pages/Login';
@@ -15,7 +14,6 @@ class App extends Component {
     }
     render() {
         let routes = <React.Fragment>
-            <Route path="/projects/archived" component={ArchivedProjects} />
             <Route path="/projects" component={Projects} />
             <Route path="/logout" component={Login} />
             <Route path="/" exact component={Main} />
@@ -49,4 +47,7 @@ const mapDispatchToProps = dispatch => {
         tryAutoLogin: () => dispatch(checkAuthStatus())
     }
 }
-export default hot(module)(withRouter(connect(mapStateToProps, mapDispatchToProps)(App)))
+if (module.hot) {
+    module.hot.accept();
+}
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))

@@ -22,7 +22,7 @@ export class NavItems extends Component {
     render() {
         const loggedOn = [
             { caption: "Home", location: "/", exact: true, id: 1 },
-            { caption: "Projects", location: "/projects", exact: true, id: 2 },
+            { caption: "Projects", location: "/projects", id: 2 },
             { caption: "Logout", location: "/logout", id: 4 },
         ];
         const notLoggedOn = [

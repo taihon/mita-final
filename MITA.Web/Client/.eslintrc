@@ -30,6 +30,11 @@
         "indent": [
             1,
             4
+        ],
+        "object-curly-newline": "off",
+        "react/jsx-indent-props": [
+            1,
+            4
         ]
     }
 }

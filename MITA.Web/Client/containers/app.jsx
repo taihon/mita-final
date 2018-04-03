@@ -1,11 +1,11 @@
 ﻿import React, { Component } from 'react';
-import { Route, NavLink, Redirect, withRouter, Switch } from "react-router-dom";
+import { Route, Redirect, withRouter, Switch } from "react-router-dom";
 import { connect } from 'react-redux';
 
 import { Main, Projects } from "../pages";
 import { ToolBar } from '../components/navigation/toolbar/Toolbar';
 import '../app.css';
-import Login from '../pages/Login';
+import { Login, Logout } from '../pages/Auth';
 import { checkAuthStatus } from '../store/actions';
 
 class App extends Component {
@@ -13,11 +13,13 @@ class App extends Component {
         this.props.tryAutoLogin();
     }
     render() {
-        let routes = <React.Fragment>
-            <Route path="/projects" component={Projects} />
-            <Route path="/logout" component={Login} />
-            <Route path="/" exact component={Main} />
-        </React.Fragment>;
+        let routes = (
+            <React.Fragment>
+                <Route path="/projects" component={Projects} />
+                <Route path="/logout" component={Logout} />
+                <Route path="/" exact component={Main} />
+            </React.Fragment>
+        );
         if (!this.props.isAuthenticated) {
             routes = (
                 <React.Fragment>
@@ -37,17 +39,17 @@ class App extends Component {
         );
     }
 }
-const mapStateToProps = state => {
-    return {
-        isAuthenticated: state.auth.token != null
+const mapStateToProps = state => (
+    {
+        isAuthenticated: state.auth.token != null,
     }
-}
-const mapDispatchToProps = dispatch => {
-    return {
-        tryAutoLogin: () => dispatch(checkAuthStatus())
+);
+const mapDispatchToProps = dispatch => (
+    {
+        tryAutoLogin: () => dispatch(checkAuthStatus()),
     }
-}
+);
 if (module.hot) {
     module.hot.accept();
 }
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

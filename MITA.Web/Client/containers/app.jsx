@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Main, Projects } from "../pages";
 import { ToolBar } from '../components/navigation/toolbar/Toolbar';
 import '../app.css';
-import { Login, Logout } from '../pages/Auth';
+import { Login, Logout, Register } from '../pages/Auth';
 import { checkAuthStatus } from '../store/actions';
 
 class App extends Component {
@@ -24,6 +24,7 @@ class App extends Component {
             routes = (
                 <React.Fragment>
                     <Route path="/login" component={Login} />
+                    <Route path="/register" component={Register} />
                     <Route path="/" exact component={Main} />
                 </React.Fragment>
             );

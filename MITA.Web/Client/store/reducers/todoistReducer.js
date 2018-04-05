@@ -22,7 +22,7 @@ const fetchProjectsStart = state => ({
     projectsLoading: true,
 });
 const fetchProjectsSuccess = (state, projects) => (
-    { ...state, projects }
+    { ...state, projects, projectsLoading: false }
 );
 export const todoistReducer = (state = initialState, action) => {
     /* eslint-disable indent */

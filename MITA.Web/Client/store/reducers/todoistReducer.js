@@ -9,7 +9,7 @@ const initialState = {
 const authSuccess = (state, payload) => (
     {
         ...state,
-        token: payload.token,
+        token: payload,
     });
 const authFail = (state, payload) => (
     {

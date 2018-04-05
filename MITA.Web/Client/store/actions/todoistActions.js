@@ -11,6 +11,14 @@ export const todoistAuth = () => (dispatch) => {
 
     window.location.href = url;
 };
+export const todoistAuthComplete = result => (dispatch) => {
+    if (result.indexOf("code") > -1) {
+        const token = result.split("&")
+            .filter(t => t.indexOf("code") > -1)[0]
+            .split("=")[1];
+        dispatch({ type: actionTypes.TODOIST_AUTH_SUCCESS, payload: token });
+    }
+};
 export const todoistRequestProjects = token => (dispatch) => {
     dispatch({ type: actionTypes.TODOIST_PROJECTS_FETCH_START });
     const api = axios.create();

@@ -8,6 +8,7 @@ class ImportProjects extends Component {
     state = {}
     componentWillMount() {
         if (this.props.location.search.length > 0) {
+            this.props.onAuthComplete(this.props.location.search);
             this.props.history.replace(this.props.location.path);
         }
     }
@@ -25,11 +26,17 @@ class ImportProjects extends Component {
                 </ul>
             )
             : "Loading...";
+        const shouldBeLoggedInBeforeRequest = !this.props.token
+            ? (
+                <React.Fragment>
+                    <p>First you need to login to Todoist service</p>
+                    <button onClick={() => this.handleBeginAuth()}>Login!</button>
+                </React.Fragment>
+            )
+            : <button onClick={() => this.requestProjects()}> request projects</button>;
         return (
             <Page>
-                <p>First you need to login to Todoist service</p>
-                <button onClick={() => this.handleBeginAuth()}>Login!</button>
-                <button onClick={() => this.requestProjects()}> request projects</button>
+                {shouldBeLoggedInBeforeRequest}
                 {projects}
             </Page>
         );
@@ -43,5 +50,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onRequestProjects: token => dispatch(actions.todoistRequestProjects(token)),
     onBeginAuth: () => dispatch(actions.todoistAuth()),
+    onAuthComplete: result => dispatch(actions.todoistAuthComplete(result)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportProjects);

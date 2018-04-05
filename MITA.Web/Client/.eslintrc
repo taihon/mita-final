@@ -36,5 +36,9 @@
             1,
             4
         ]
+    },
+    "globals": {
+        "browser": true,
+        "window": true
     }
 }

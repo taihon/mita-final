@@ -1,0 +1,44 @@
+{
+    "parser": "babel-eslint",
+    "extends": "airbnb",
+    "plugins": [
+        "react",
+        "jsx-a11y",
+        "import"
+    ],
+    "rules": {
+        "react/jsx-indent": [
+            1,
+            4
+        ],
+        "no-unused-vars": [
+            1,
+            {
+                "vars": "local",
+                "args": "none"
+            }
+        ],
+        "import/prefer-default-export": [
+            "off"
+        ],
+        "linebreak-style": [
+            "error",
+            "windows"
+        ],
+        "quotes": 0,
+        "react/prop-types": 0,
+        "indent": [
+            1,
+            4
+        ],
+        "object-curly-newline": "off",
+        "react/jsx-indent-props": [
+            1,
+            4
+        ]
+    },
+    "globals": {
+        "browser": true,
+        "window": true
+    }
+}

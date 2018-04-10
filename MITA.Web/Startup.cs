@@ -20,9 +20,19 @@ namespace MITA.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder().SetBasePath(System.IO.Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json");
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets("816154db-4f2f-4bd7-9445-b83abc0f633b");
+            }
+            else
+            {
+                builder.AddEnvironmentVariables();
+            }
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }

@@ -11,14 +11,6 @@ export const todoistAuth = () => (dispatch) => {
 
     window.location.href = url;
 };
-export const todoistAuthComplete = result => (dispatch) => {
-    if (result.indexOf("code") > -1) {
-        const token = result.split("&")
-            .filter(t => t.indexOf("code") > -1)[0]
-            .split("=")[1];
-        dispatch({ type: actionTypes.TODOIST_AUTH_SUCCESS, payload: token });
-    }
-};
 export const todoistRequestProjects = token => (dispatch) => {
     dispatch({ type: actionTypes.TODOIST_PROJECTS_FETCH_START });
     const api = axios.create();
@@ -37,4 +29,30 @@ export const todoistRequestProjects = token => (dispatch) => {
             type: actionTypes.TODOIST_PROJECTS_FETCH_FAILURE,
             payload: error,
         }));
+};
+const todoistRequestAccessToken = (code, token) => (dispatch) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    };
+    axios
+        .post("/api/todoist/gettoken", { code }, config)
+        .then((response) => {
+            dispatch({
+                type: actionTypes.TODOIST_AUTH_SUCCESS,
+                payload: response.data.accessToken,
+            });
+            dispatch(todoistRequestProjects(response.data.accessToken));
+        })
+        .catch(error => console.log(error));
+};
+export const todoistAuthComplete = (result, token) => (dispatch) => {
+    if (result.indexOf("code") > -1) {
+        const code = result.split("&")
+            .filter(t => t.indexOf("code") > -1)[0]
+            .split("=")[1];
+        dispatch(todoistRequestAccessToken(code, token));
+    }
 };

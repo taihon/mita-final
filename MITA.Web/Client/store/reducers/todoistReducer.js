@@ -10,11 +10,13 @@ const authSuccess = (state, payload) => (
     {
         ...state,
         token: payload,
+        error: null,
     });
 const authFail = (state, payload) => (
     {
         ...state,
         error: payload.error,
+        token: null,
     }
 );
 const fetchProjectsStart = state => ({

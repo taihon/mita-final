@@ -8,7 +8,10 @@ class ImportProjects extends Component {
     state = {}
     componentWillMount() {
         if (this.props.location.search.length > 0) {
-            this.props.onAuthComplete(this.props.location.search);
+            this.props.onAuthComplete(
+                this.props.location.search,
+                this.props.apiToken,
+            );
             this.props.history.replace(this.props.location.path);
         }
     }
@@ -33,7 +36,7 @@ class ImportProjects extends Component {
                     <button onClick={() => this.handleBeginAuth()}>Login!</button>
                 </React.Fragment>
             )
-            : <button onClick={() => this.requestProjects()}> request projects</button>;
+            : null;
         return (
             <Page>
                 {shouldBeLoggedInBeforeRequest}
@@ -46,10 +49,11 @@ const mapStateToProps = state => ({
     projects: state.todoist.projects,
     projectsLoading: state.todoist.projectsLoading,
     token: state.todoist.token,
+    apiToken: state.auth.token,
 });
 const mapDispatchToProps = dispatch => ({
     onRequestProjects: token => dispatch(actions.todoistRequestProjects(token)),
     onBeginAuth: () => dispatch(actions.todoistAuth()),
-    onAuthComplete: result => dispatch(actions.todoistAuthComplete(result)),
+    onAuthComplete: (result, apiToken) => dispatch(actions.todoistAuthComplete(result, apiToken)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportProjects);

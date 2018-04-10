@@ -18,9 +18,9 @@ namespace MITA.Web.Controllers
         [Route("gettoken")]
         [ProducesResponseType(200,Type =typeof(TodoistTokenResponse))]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetToken([FromBody]string code,[FromServices]ITodoistTokenQuery query)
+        public async Task<IActionResult> GetToken([FromBody]TodoistTokenRequest request,[FromServices]ITodoistTokenQuery query)
         {
-            TodoistTokenResponse result = await query.RunAsync(code);
+            TodoistTokenResponse result = await query.RunAsync(request.Code);
             return string.IsNullOrWhiteSpace(result.Error)
                 ? (IActionResult)Ok(result)
                 : BadRequest(result);

@@ -3,6 +3,16 @@ import axios from 'axios';
 import * as actionTypes from './actionTypes';
 import providerConfig from '../extProviderConfig';
 
+const postTodoistData = (url, data) => {
+    const serialized = Object.keys(data)
+        .map(item => `${item}=${encodeURIComponent(data[item])}`)
+        .join("&");
+    return axios.post(url, serialized, {
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+    });
+};
 export const todoistAuth = () => (dispatch) => {
     dispatch({ type: actionTypes.TODOIST_AUTH_START });
     const { clientId } = providerConfig.todoist;
@@ -13,14 +23,7 @@ export const todoistAuth = () => (dispatch) => {
 };
 export const todoistRequestProjects = token => (dispatch) => {
     dispatch({ type: actionTypes.TODOIST_PROJECTS_FETCH_START });
-    const api = axios.create();
-    const data = `token=${token}&sync_token=${encodeURIComponent("*")}\
-        &resource_types=${encodeURIComponent('["projects"]')}`;
-    api.post("https://todoist.com/api/v7/sync", data, {
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    })
+    postTodoistData("https://todoist.com/api/v7/sync", { token, sync_token: "*", resource_types: '["projects"]' })
         .then(response => dispatch({
             type: actionTypes.TODOIST_PROJECTS_FETCH_SUCCESS,
             payload: response.data.projects,
@@ -55,4 +58,14 @@ export const todoistAuthComplete = (result, token) => (dispatch) => {
             .split("=")[1];
         dispatch(todoistRequestAccessToken(code, token));
     }
+};
+
+export const todoistRequestProjectDetails = (id, token) => (dispatch) => {
+    dispatch({ type: actionTypes.TODOIST_FETCH_PROJECT_DETAILS_START });
+    postTodoistData("https://todoist.com/api/v7/projects/get_data", { token, project_id: id })
+        .then(response => dispatch({
+            type: actionTypes.TODOIST_FETCH_PROJECT_DETAILS_SUCCESS,
+            payload: { id, items: response.data.items },
+        }))
+        .catch(error => console.log(error));
 };

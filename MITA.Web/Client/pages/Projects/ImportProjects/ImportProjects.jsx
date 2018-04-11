@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { Page } from '../../../components/page/Page';
 import * as actions from '../../../store/actions/todoistActions';
+import { Toggleable } from '../../../components/toggleable/Toggleable';
 
 class ImportProjects extends Component {
     state = {}
@@ -18,14 +19,31 @@ class ImportProjects extends Component {
     requestProjects() {
         this.props.onRequestProjects(this.props.token);
     }
+    requestProjectDetails(id) {
+        const proj = this.props.projects.find(p => p.id === id);
+        if (proj && (!this.props.projectinfo[id]
+            || !this.props.projectinfo[id].items)) {
+            this.props.onRequestProjectDetails(id, this.props.token);
+        }
+    }
     handleBeginAuth() {
         this.props.onBeginAuth();
     }
     render() {
         const projects = !this.props.projectsLoading
             ? (
-                <ul>{this.props.projects.map(proj =>
-                    <li key={proj.id}>{proj.name}</li>)}
+                <ul>
+                    {this.props.projects.map(proj =>
+                        (
+                            <Toggleable
+                                title={proj.name}
+                                id={proj.id}
+                                key={proj.id}
+                                onToggle={id => this.requestProjectDetails(id)}
+                                detailsLoading={this.props.projectinfoLoading}
+                                items={this.props.projectinfo[proj.id]}
+                            />
+                        ))}
                 </ul>
             )
             : "Loading...";
@@ -50,10 +68,14 @@ const mapStateToProps = state => ({
     projectsLoading: state.todoist.projectsLoading,
     token: state.todoist.token,
     apiToken: state.auth.token,
+    projectinfo: state.todoist.projectinfo,
+    projectinfoLoading: state.todoist.projectinfoLoading,
 });
 const mapDispatchToProps = dispatch => ({
     onRequestProjects: token => dispatch(actions.todoistRequestProjects(token)),
     onBeginAuth: () => dispatch(actions.todoistAuth()),
     onAuthComplete: (result, apiToken) => dispatch(actions.todoistAuthComplete(result, apiToken)),
+    onRequestProjectDetails: (id, token) =>
+        dispatch(actions.todoistRequestProjectDetails(id, token)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportProjects);

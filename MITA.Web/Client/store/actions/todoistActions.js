@@ -67,12 +67,13 @@ const buildTree = (data, parent) => {
     const except = data.filter(item => item.parent_id !== pId);
     data
         .filter(item => item.parent_id === pId)
-        .forEach(({ id, content, parent_id }) => {
+        .forEach(({ id, content, parent_id, due_date_utc }) => {
             result.push({
                 id,
                 title: content,
                 parentId: parent_id,
                 childs: [...buildTree(except, id)],
+                dueDate: due_date_utc,
             });
         });
     /* eslint-enable */
@@ -84,7 +85,9 @@ export const todoistRequestProjectDetails = (id, token) => (dispatch) => {
         .then((response) => {
             dispatch({
                 type: actionTypes.TODOIST_FETCH_PROJECT_DETAILS_SUCCESS,
-                payload: { id, items: buildTree(response.data.items) },
+                payload: {
+                    id, title: response.data.project.name, items: buildTree(response.data.items),
+                },
             });
         })
         .catch(error => console.log(error));

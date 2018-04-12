@@ -85,5 +85,12 @@ namespace MITA.Web.Controllers
             var restorationResult = await command.ExecuteAsync(projectId);
             return restorationResult ? (IActionResult)NoContent() : NotFound();
         }
+        [HttpPost]
+        [ProducesResponseType(200, Type =typeof(ProjectResponse))]
+        [Route("import")]
+        public async Task<IActionResult> ImportProject([FromBody]ImportProjectRequest request)
+        {
+            return Ok(request);
+        }
     }
 }

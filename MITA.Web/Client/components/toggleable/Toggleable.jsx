@@ -12,6 +12,9 @@ export class Toggleable extends Component {
             toggled: !prevState.toggled,
         }), () => this.props.onToggle && this.state.toggled && this.props.onToggle(this.props.id));
     }
+    onImportHandler = (id) => {
+        this.props.onImportHandler(id);
+    }
     render() {
         const StTitle = styled.h4`
         cursor: pointer;

@@ -22,6 +22,7 @@ export const createProject = (title, description, token) => (dispatch) => {
 };
 export const importProject = (project, token) => (dispatch) => {
     dispatch({ type: "IMPORT_PROJECT_START" });
+    console.log(project);
     axios
         .post("/api/projects/import", project, { headers: { Authorization: `Bearer ${token}` } })
         .then(response => console.log(response.data))

@@ -1,5 +1,5 @@
 export { login, logout, checkAuthStatus } from './authActions';
-export { requestProjects, createProject } from './projectActions';
+export { requestProjects, createProject, importProject } from './projectActions';
 export {
     todoistAuth,
     todoistRequestProjects,

@@ -42,9 +42,9 @@ const fetchProjectDetailsStart = state => (
         projectinfoLoading: true,
     });
 const fetchProjectDetailsSuccess = (state, payload) => {
-    const { id, items } = payload;
+    const { id, items, title } = payload;
     const projectinfo = { ...state.projectinfo };
-    projectinfo[id] = { items };
+    projectinfo[id] = { title, items };
     return { ...state, projectinfo, projectinfoLoading: false };
 };
 export const todoistReducer = (state = initialState, action) => {

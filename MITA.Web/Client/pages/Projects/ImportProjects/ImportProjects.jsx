@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Page } from '../../../components/page/Page';
-import * as actions from '../../../store/actions/todoistActions';
+import * as actions from '../../../store/actions';
 import { Toggleable } from '../../../components/toggleable/Toggleable';
 
 class ImportProjects extends Component {
@@ -29,8 +29,8 @@ class ImportProjects extends Component {
     handleBeginAuth() {
         this.props.onBeginAuth();
     }
-    handleImport(id) {
-        this.props.onImport(id);
+    handleImport = (id) => {
+        this.props.onImport(this.props.projectinfo[id], this.props.apiToken);
     }
     render() {
         const projects = !this.props.projectsLoading
@@ -81,6 +81,6 @@ const mapDispatchToProps = dispatch => ({
     onAuthComplete: (result, apiToken) => dispatch(actions.todoistAuthComplete(result, apiToken)),
     onRequestProjectDetails: (id, token) =>
         dispatch(actions.todoistRequestProjectDetails(id, token)),
-    onImport: (id, apiToken) => actions.importProject(id, apiToken),
+    onImport: (project, apiToken) => dispatch(actions.importProject(project, apiToken)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportProjects);

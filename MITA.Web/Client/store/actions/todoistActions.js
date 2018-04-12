@@ -59,13 +59,33 @@ export const todoistAuthComplete = (result, token) => (dispatch) => {
         dispatch(todoistRequestAccessToken(code, token));
     }
 };
-
+const buildTree = (data, parent) => {
+    const result = [];
+    let pId = parent;
+    if (!parent) { pId = null; }
+    /* eslint-disable camelcase */
+    const except = data.filter(item => item.parent_id !== pId);
+    data
+        .filter(item => item.parent_id === pId)
+        .forEach(({ id, content, parent_id }) => {
+            result.push({
+                id,
+                title: content,
+                parentId: parent_id,
+                childs: [...buildTree(except, id)],
+            });
+        });
+    /* eslint-enable */
+    return result;
+};
 export const todoistRequestProjectDetails = (id, token) => (dispatch) => {
     dispatch({ type: actionTypes.TODOIST_FETCH_PROJECT_DETAILS_START });
     postTodoistData("https://todoist.com/api/v7/projects/get_data", { token, project_id: id })
-        .then(response => dispatch({
-            type: actionTypes.TODOIST_FETCH_PROJECT_DETAILS_SUCCESS,
-            payload: { id, items: response.data.items },
-        }))
+        .then((response) => {
+            dispatch({
+                type: actionTypes.TODOIST_FETCH_PROJECT_DETAILS_SUCCESS,
+                payload: { id, items: buildTree(response.data.items) },
+            });
+        })
         .catch(error => console.log(error));
 };

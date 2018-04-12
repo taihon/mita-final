@@ -1,14 +1,15 @@
 import React from 'react';
 
 const Treeview = (props) => {
-    const childs = (props.childs && props.childs.count > 0)
+    const childs = (props.childs && props.childs.length > 0)
         ? props.childs.map(child =>
-            <Treeview key={child.id} title={child.title} childs={child.childs} />)
+            <ul key={child.id} ><Treeview title={child.title} childs={child.childs} /></ul>)
         : null;
     return (
         <React.Fragment>
-            <div>{props.title}</div>
-            {childs}
+            <li>{props.title}
+                {childs}
+            </li>
         </React.Fragment>
     );
 };

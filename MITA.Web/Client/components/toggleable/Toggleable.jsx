@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import { Spinner } from "../spinner/Spinner";
+import Treeview from '../treeview/Treeview';
 
 export class Toggleable extends Component {
     state = {}
@@ -21,7 +22,8 @@ export class Toggleable extends Component {
                 projectDetails = <Spinner />;
             } else {
                 projectDetails = this.props.items.items.map(item => (
-                    <li key={item.id}>{item.content}</li>));
+                    <ul key={item.id} style={{ borderLeft: 'dotted 1px' }}><Treeview {...item} /></ul>
+                ));
             }
         }
         return (

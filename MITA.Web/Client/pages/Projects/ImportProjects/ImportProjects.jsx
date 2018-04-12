@@ -29,10 +29,13 @@ class ImportProjects extends Component {
     handleBeginAuth() {
         this.props.onBeginAuth();
     }
+    handleImport(id) {
+        this.props.onImport(id);
+    }
     render() {
         const projects = !this.props.projectsLoading
             ? (
-                <ul>
+                <ul style={{ borderLeft: 'none' }}>
                     {this.props.projects.map(proj =>
                         (
                             <Toggleable
@@ -42,6 +45,7 @@ class ImportProjects extends Component {
                                 onToggle={id => this.requestProjectDetails(id)}
                                 detailsLoading={this.props.projectinfoLoading}
                                 items={this.props.projectinfo[proj.id]}
+                                onImportHandler={this.handleImport}
                             />
                         ))}
                 </ul>
@@ -77,5 +81,6 @@ const mapDispatchToProps = dispatch => ({
     onAuthComplete: (result, apiToken) => dispatch(actions.todoistAuthComplete(result, apiToken)),
     onRequestProjectDetails: (id, token) =>
         dispatch(actions.todoistRequestProjectDetails(id, token)),
+    onImport: (id, apiToken) => actions.importProject(id, apiToken),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ImportProjects);

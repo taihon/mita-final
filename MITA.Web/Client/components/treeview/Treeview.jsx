@@ -7,7 +7,7 @@ const Treeview = (props) => {
         : null;
     return (
         <React.Fragment>
-            <li>{props.title}
+            <li style={{ borderBottom: 'dotted 1px' }}>{props.title}
                 {childs}
             </li>
         </React.Fragment>

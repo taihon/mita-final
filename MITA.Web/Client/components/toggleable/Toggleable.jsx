@@ -21,9 +21,19 @@ export class Toggleable extends Component {
             if (!this.props.items) {
                 projectDetails = <Spinner />;
             } else {
-                projectDetails = this.props.items.items.map(item => (
-                    <ul key={item.id} style={{ borderLeft: 'dotted 1px' }}><Treeview {...item} /></ul>
-                ));
+                projectDetails = (
+                    <React.Fragment>
+                        {this.props.items.items.map(item => (
+                            <ul key={item.id} style={{ borderLeft: 'dotted 1px' }}><Treeview {...item} /></ul>
+
+                        ))}
+                        <button onClick={() =>
+                            this.props.onImportHandler(this.props.id)}
+                        >
+                            import
+                        </button>
+                    </React.Fragment>
+                );
             }
         }
         return (

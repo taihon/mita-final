@@ -40,6 +40,7 @@
     "globals": {
         "browser": true,
         "window": true,
-        "document": true
+        "document": true,
+        "localStorage": true
     }
 }

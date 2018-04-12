@@ -32,6 +32,7 @@ namespace MITA.Web
 
             //todoist
             services.AddTransient<ITodoistTokenQuery, TodoistTokenQuery>();
+            services.AddTransient<IImportProjectCommand, ImportProjectCommand>();
 
             return services;
         }

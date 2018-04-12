@@ -2,8 +2,11 @@ import axios from 'axios';
 
 import * as actionTypes from './actionTypes';
 
-export const requestProjects = token => (dispatch) => {
+export const requestProjects = apiToken => (dispatch, getState) => {
     dispatch({ type: actionTypes.FETCH_PROJECTS_START });
+    // because of way react renders components
+    const token = localStorage.getItem("token");
+    console.log(`token: ${token}`);
     axios.get("/api/projects", {
         headers: { Authorization: `Bearer ${token}` },
     })

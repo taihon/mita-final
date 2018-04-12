@@ -8,7 +8,7 @@ import { Spinner } from '../../../components/spinner/Spinner';
 
 class ProjectsList extends Component {
     componentDidMount() {
-        this.props.onRequestProjects(this.props.authToken);
+        this.props.onRequestProjects(this.props.apiToken);
     }
     render() {
         const content = this.props.isLoading

@@ -88,9 +88,15 @@ namespace MITA.Web.Controllers
         [HttpPost]
         [ProducesResponseType(200, Type =typeof(ProjectResponse))]
         [Route("import")]
-        public async Task<IActionResult> ImportProject([FromBody]ImportProjectRequest request)
+        public async Task<IActionResult> ImportProject([FromServices]IImportProjectCommand command, [FromBody]ImportProjectRequest request)
         {
-            return Ok(request);
+            var userId = getUserId();
+            ProjectResponse result = await command.ExecuteAsync(request, userId);
+            return Ok(result);
+        }
+        private string getUserId()
+        {
+            return HttpContext.User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier).Value;
         }
     }
 }

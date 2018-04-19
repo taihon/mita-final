@@ -74,9 +74,15 @@ namespace MITA.Web
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new Microsoft.AspNetCore.SpaServices.Webpack.WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true,
-                    ReactHotModuleReplacement=true
+                    ReactHotModuleReplacement = true
                 });
             }
+            var services = app.ApplicationServices.GetService<IServiceScopeFactory>();
+            using (var context = services.CreateScope().ServiceProvider.GetRequiredService<TasksContext>())
+            {
+                context.Database.Migrate();
+            }
+            app.MigrateAuthDb();
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc(routes =>

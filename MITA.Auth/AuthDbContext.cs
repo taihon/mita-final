@@ -12,7 +12,7 @@ namespace MITA.Auth
         {
         }
 
-        protected AuthDbContext()
+        internal AuthDbContext()
         {
         }
     }

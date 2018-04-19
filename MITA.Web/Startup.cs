@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MITA.DB;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace MITA.Web
 {
@@ -26,7 +27,7 @@ namespace MITA.Web
             builder.AddJsonFile("appsettings.json");
             if (env.IsDevelopment())
             {
-                builder.AddUserSecrets("816154db-4f2f-4bd7-9445-b83abc0f633b");
+                builder.AddUserSecrets<Startup>();
             }
             else
             {

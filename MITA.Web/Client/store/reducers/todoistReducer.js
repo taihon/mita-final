@@ -5,33 +5,48 @@ const initialState = {
     token: null,
     error: null,
     projectsLoading: false,
+    projectinfoLoading: false,
+    projectinfo: {},
 };
 const authSuccess = (state, payload) => (
     {
         ...state,
         token: payload,
+        error: null,
     });
 const authFail = (state, payload) => (
     {
         ...state,
         error: payload.error,
-    }
-);
-const fetchProjectsStart = state => ({
-    ...state,
-    projectsLoading: true,
-    error: null,
-});
+        token: null,
+    });
+const fetchProjectsStart = state => (
+    {
+        ...state,
+        projectsLoading: true,
+        error: null,
+    });
 const fetchProjectsSuccess = (state, projects) => (
-    { ...state, projects, projectsLoading: false }
-);
+    {
+        ...state, projects, projectsLoading: false,
+    });
 const fetchProjectsFailure = (state, error) => (
     {
         ...state,
         projectsLoading: false,
         error,
-    }
-);
+    });
+const fetchProjectDetailsStart = state => (
+    {
+        ...state,
+        projectinfoLoading: true,
+    });
+const fetchProjectDetailsSuccess = (state, payload) => {
+    const { id, items, title } = payload;
+    const projectinfo = { ...state.projectinfo };
+    projectinfo[id] = { title, items };
+    return { ...state, projectinfo, projectinfoLoading: false };
+};
 export const todoistReducer = (state = initialState, action) => {
     /* eslint-disable indent */
     switch (action.type) {
@@ -47,6 +62,10 @@ export const todoistReducer = (state = initialState, action) => {
             return fetchProjectsSuccess(state, action.payload);
         case actionTypes.TODOIST_PROJECTS_FETCH_FAILURE:
             return fetchProjectsFailure(state, action.payload);
+        case actionTypes.TODOIST_FETCH_PROJECT_DETAILS_START:
+            return fetchProjectDetailsStart(state);
+        case actionTypes.TODOIST_FETCH_PROJECT_DETAILS_SUCCESS:
+            return fetchProjectDetailsSuccess(state, action.payload);
         default:
             return state;
         /* eslint-enable indent */

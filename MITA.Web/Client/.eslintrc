@@ -39,6 +39,8 @@
     },
     "globals": {
         "browser": true,
-        "window": true
+        "window": true,
+        "document": true,
+        "localStorage": true
     }
 }

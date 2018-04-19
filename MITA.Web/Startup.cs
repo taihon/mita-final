@@ -15,14 +15,25 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MITA.DB;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.UserSecrets;
 
 namespace MITA.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder().SetBasePath(System.IO.Directory.GetCurrentDirectory());
+            builder.AddJsonFile("appsettings.json");
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
+            else
+            {
+                builder.AddEnvironmentVariables();
+            }
+            Configuration = builder.Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -64,9 +75,15 @@ namespace MITA.Web
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new Microsoft.AspNetCore.SpaServices.Webpack.WebpackDevMiddlewareOptions {
                     HotModuleReplacement = true,
-                    ReactHotModuleReplacement=true
+                    ReactHotModuleReplacement = true
                 });
             }
+            var services = app.ApplicationServices.GetService<IServiceScopeFactory>();
+            using (var context = services.CreateScope().ServiceProvider.GetRequiredService<TasksContext>())
+            {
+                context.Database.Migrate();
+            }
+            app.MigrateAuthDb();
             app.UseAuthentication();
             app.UseStaticFiles();
             app.UseMvc(routes =>

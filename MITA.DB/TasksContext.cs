@@ -15,7 +15,7 @@ namespace MITA.DB
         {
         }
 
-        protected TasksContext()
+        public TasksContext()
         {
         }
     }

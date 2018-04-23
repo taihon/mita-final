@@ -31,3 +31,15 @@ export const importProject = (project, token) => (dispatch) => {
         .then(response => console.log(response.data))
         .catch(error => console.log(error));
 };
+const projectDetails = (id, data) => ({
+    type: actionTypes.FETCH_PROJECT_DETAILS_SUCCESS,
+    payload: { id, items: data.items },
+});
+export const fetchProjectDetails = (projectId, token) => (dispatch) => {
+    dispatch({ type: actionTypes.FETCH_PROJECT_DETAILS_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .get(`/api/projects/${projectId}/tasks`, config)
+        .then(response => dispatch(projectDetails(projectId, response.data)))
+        .catch(error => console.log(error));
+};

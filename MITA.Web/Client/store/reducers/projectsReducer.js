@@ -17,8 +17,11 @@ const fetchProjectsSuccess = (state, payload) => ({
 });
 const fetchProjectDetailsStart = state => ({ ...state, projectDetailsLoading: true });
 const fetchProjectDetailsSuccess = (state, payload) => {
-    const pay = payload;
-    return { ...state, projectDetailsLoading: false };
+    const { id, items } = payload;
+    const project = state.projects.find(p => p.id === id);
+    project.items = items;
+    const updatedProjects = [...state.projects];
+    return { ...state, projectDetailsLoading: false, projects: updatedProjects };
 };
 const fetchProjectDetailsFailure = state => ({ ...state, projectDetailsLoading: false });
 const fetchProjectsError = state => ({ ...state, isLoading: false });

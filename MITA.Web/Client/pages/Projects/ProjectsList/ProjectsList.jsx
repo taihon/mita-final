@@ -13,7 +13,11 @@ class ProjectsList extends Component {
     render() {
         const content = this.props.isLoading
             ? <Spinner />
-            : this.props.projects.map(item => <NavLink to={`/projects/${item.id}`}><Project {...item} key={item.id} /></NavLink>);
+            : this.props.projects.map(item => (
+                <NavLink to={`/projects/${item.id}`} key={item.id} >
+                    <Project {...item} />
+                </NavLink>
+            ));
         return (
             <div>
                 <h4>This is list of your actve projects</h4>

@@ -72,7 +72,7 @@ const buildTree = (data, parent) => {
                 id,
                 title: content,
                 parentId: parent_id,
-                childs: [...buildTree(except, id)],
+                childrens: [...buildTree(except, id)],
                 dueDate: due_date_utc,
             });
         });

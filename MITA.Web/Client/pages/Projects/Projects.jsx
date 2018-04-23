@@ -6,12 +6,14 @@ import AddProject from './AddProject/AddProject';
 import ProjectsList from './ProjectsList/ProjectsList';
 import ImportProjects from './ImportProjects/ImportProjects';
 import ProjectDetails from './ProjectDetails/ProjectDetails';
+import AddTask from './AddTask/AddTask';
 
 const Projects = props => (
     <Page>
         <Switch>
             <Route path={`${props.match.path}/add`} component={AddProject} />
             <Route path={`${props.match.path}/import`} component={ImportProjects} />
+            <Route path={`${props.match.path}/:projectId/tasks/add`} component={AddTask} />
             <Route path={`${props.match.path}/:projectId`} component={ProjectDetails} />
             <Route path="/" component={ProjectsList} />
         </Switch>

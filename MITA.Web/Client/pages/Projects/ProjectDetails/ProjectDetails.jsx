@@ -18,6 +18,7 @@ class ProjectDetails extends Component {
         return (
             <React.Fragment>
                 <Project {...project} />
+                <p>Tasks:</p>
                 {(this.props.detailsLoading && <Spinner />)
                     ||
                     (project && project.items
@@ -25,6 +26,7 @@ class ProjectDetails extends Component {
                             <Treeview key={item.id} {...item} />)))
                     || null
                 }
+                <button onClick={() => this.props.history.push(`${this.props.location.pathname}/tasks/add`)}>Add new task</button>
             </React.Fragment>
         );
     }

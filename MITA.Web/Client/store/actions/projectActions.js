@@ -43,3 +43,12 @@ export const fetchProjectDetails = (projectId, token) => (dispatch) => {
         .then(response => dispatch(projectDetails(projectId, response.data)))
         .catch(error => console.log(error));
 };
+export const addTaskToProject = (projectId, data, token) => (dispatch) => {
+    dispatch({ type: actionTypes.ADD_TASK_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .post(`/api/projects/${projectId}/tasks`, data, config)
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+    dispatch({ type: actionTypes.ADD_TASK_SUCCESS, payload: { projectId, data } });
+};

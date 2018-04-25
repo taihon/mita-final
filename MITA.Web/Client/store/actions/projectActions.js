@@ -52,3 +52,12 @@ export const addTaskToProject = (projectId, data, token) => (dispatch) => {
         .catch(error => console.log(error));
     dispatch({ type: actionTypes.ADD_TASK_SUCCESS, payload: { projectId, data } });
 };
+export const saveTask = (data, token) => (dispatch) => {
+    dispatch({ type: actionTypes.SAVE_TASK_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .put(`/api/projects/${data.projectId}/tasks/${data.id}`, data, config)
+        .then(response => console.log(response))
+        .catch(e => console.log(e));
+    dispatch({ type: actionTypes.SAVE_TASK_SUCCESS });
+};

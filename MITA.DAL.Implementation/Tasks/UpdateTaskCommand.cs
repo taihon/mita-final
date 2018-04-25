@@ -36,6 +36,10 @@ namespace MITA.DAL.Implementation.Tasks
                 {
                     foundTask.Title = request.Title;
                 }
+                if (request.Priority.HasValue)
+                {
+                    foundTask.Priority = (Entities.TaskPriority)request.Priority.Value;
+                }
             }
             await _context.SaveChangesAsync();
             //TODO: add automapper

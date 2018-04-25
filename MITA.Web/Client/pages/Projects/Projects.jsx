@@ -7,6 +7,7 @@ import ProjectsList from './ProjectsList/ProjectsList';
 import ImportProjects from './ImportProjects/ImportProjects';
 import ProjectDetails from './ProjectDetails/ProjectDetails';
 import AddTask from './AddTask/AddTask';
+import EditTask from './EditTask/EditTask';
 
 const Projects = props => (
     <Page>
@@ -14,6 +15,7 @@ const Projects = props => (
             <Route path={`${props.match.path}/add`} component={AddProject} />
             <Route path={`${props.match.path}/import`} component={ImportProjects} />
             <Route path={`${props.match.path}/:projectId/tasks/add`} component={AddTask} />
+            <Route path={`${props.match.path}/:projectId/tasks/:taskId/edit`} component={EditTask} />
             <Route path={`${props.match.path}/:projectId`} component={ProjectDetails} />
             <Route path="/" component={ProjectsList} />
         </Switch>

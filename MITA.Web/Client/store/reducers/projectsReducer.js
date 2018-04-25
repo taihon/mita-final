@@ -15,7 +15,7 @@ const fetchProjectsSuccess = (state, payload) => ({
     page: payload.page,
     projects: payload.items,
 });
-const fetchProjectDetailsStart = state => ({ ...state, projectDetailsLoading: true });
+const fetchProjectDetailsStart = state => ({ ...state, projectDetailsLoading: true, projects: [] });
 const fetchProjectDetailsSuccess = (state, payload) => {
     const { id, items } = payload;
     const project = state.projects.find(p => p.id === id);

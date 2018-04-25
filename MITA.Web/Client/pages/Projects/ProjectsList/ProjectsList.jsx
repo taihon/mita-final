@@ -15,7 +15,7 @@ class ProjectsList extends Component {
             ? <Spinner />
             : this.props.projects.map(item => (
                 <NavLink to={`/projects/${item.id}`} key={item.id} >
-                    <Project {...item} />
+                    <Project title={item.title} />
                 </NavLink>
             ));
         return (

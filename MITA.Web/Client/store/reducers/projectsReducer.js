@@ -14,6 +14,8 @@ const fetchProjectsSuccess = (state, payload) => ({
     pagesCount: payload.pagesCount,
     page: payload.page,
     projects: payload.items,
+    /* [...payload.items].map(item => ({ ...item,
+        description: item.description && item.description.replace(/\\\\/g, "\\") })), */
 });
 const fetchProjectDetailsStart = state => ({ ...state, projectDetailsLoading: true, projects: [] });
 const fetchProjectDetailsSuccess = (state, payload) => {

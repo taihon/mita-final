@@ -21,7 +21,7 @@ namespace MITA.Web.Controllers
         public async Task<IActionResult> GetProjectsListAsync([FromServices]IProjectsListQuery query)
         {
             ListResponse<ProjectResponse> response = await query.RunAsync();
-            return Ok(response);
+            return Json(response);
         }
         [HttpPost]
         public async Task<IActionResult> CreateProjectAsync([FromBody]CreateProjectRequest request, [FromServices]ICreateProjectCommand command)

@@ -35,7 +35,6 @@ class ProjectDetails extends Component {
         this.props.history.push(`${this.props.location.pathname}/tasks/${taskId}/edit`, { ...task, projectId: projId });
     };
     handleAddSubTask = (taskId) => {
-        const projId = parseInt(this.props.match.params.projectId, 10);
         this.props.history.push(`${this.props.location.pathname}/tasks/add`, { parentId: taskId });
     }
     deepSearch = (id, object) => {

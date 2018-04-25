@@ -11,7 +11,10 @@ export const requestProjects = apiToken => (dispatch, getState) => {
         headers: { Authorization: `Bearer ${token}` },
     })
         .then(response =>
-            dispatch({ type: actionTypes.FETCH_PROJECTS_SUCCESS, payload: { ...response.data } }))
+            dispatch({
+                type: actionTypes.FETCH_PROJECTS_SUCCESS,
+                payload: { ...response.data },
+            }))
         .catch(error => dispatch({ type: actionTypes.FETCH_PROJECTS_FAILURE }));
 };
 export const createProject = (title, description, token) => (dispatch) => {
@@ -37,7 +40,7 @@ const projectDetails = (id, data) => ({
 });
 const fetchSingleProject = data => ({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
-    payload: data,
+    payload: { ...data, description: data.description.replace(/¤n/g, '\n') },
 });
 export const fetchProjectDetails = (projectId, token) => (dispatch) => {
     dispatch({ type: actionTypes.FETCH_PROJECT_DETAILS_START });

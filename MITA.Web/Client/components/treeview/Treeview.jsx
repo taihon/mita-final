@@ -12,8 +12,6 @@ const Treeview = (props) => {
                 </ul>
             ))
         : null;
-
-    console.log(props);
     return (
         <React.Fragment>
             <li style={{ borderBottom: 'dotted 1px' }}>{props.title}{props.additionals(props.id)}

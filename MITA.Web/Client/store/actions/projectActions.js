@@ -35,12 +35,23 @@ const projectDetails = (id, data) => ({
     type: actionTypes.FETCH_PROJECT_DETAILS_SUCCESS,
     payload: { id, items: data.items },
 });
+const fetchSingleProject = data => ({
+    type: actionTypes.FETCH_PROJECT_SUCCESS,
+    payload: data,
+});
 export const fetchProjectDetails = (projectId, token) => (dispatch) => {
     dispatch({ type: actionTypes.FETCH_PROJECT_DETAILS_START });
+    console.log(token);
     const config = { headers: { Authorization: `Bearer ${token}` } };
     axios
-        .get(`/api/projects/${projectId}/tasks`, config)
-        .then(response => dispatch(projectDetails(projectId, response.data)))
+        .get(`/api/projects/${projectId}`, config)
+        .then((response) => {
+            console.log(response);
+            dispatch(fetchSingleProject(response.data));
+            axios
+                .get(`/api/projects/${projectId}/tasks`, config)
+                .then(res => dispatch(projectDetails(projectId, res.data)));
+        })
         .catch(error => console.log(error));
 };
 export const addTaskToProject = (projectId, data, token) => (dispatch) => {
@@ -60,4 +71,13 @@ export const saveTask = (data, token) => (dispatch) => {
         .then(response => console.log(response))
         .catch(e => console.log(e));
     dispatch({ type: actionTypes.SAVE_TASK_SUCCESS });
+};
+export const deleteTask = (taskId, projectId, token) => (dispatch) => {
+    dispatch({ type: actionTypes.DELETE_TASK_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .delete(`/api/projects/${projectId}/tasks/${taskId}`, config)
+        .then(response => console.log(response))
+        .catch(e => console.log(e));
+    dispatch({ type: actionTypes.DELETE_TASK_SUCCESS });
 };

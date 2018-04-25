@@ -5,22 +5,35 @@ import { Spinner } from '../../../components/spinner/Spinner';
 import * as actions from '../../../store/actions';
 import Treeview from '../../../components/treeview/Treeview';
 import { Project } from '../Project/Project';
+import { Modal } from '../../../components/modal/Modal';
 
 class ProjectDetails extends Component {
     state = {
-        taskRemoveRequestShown: false,
+        showRemoveTaskRequest: false,
+        removeTaskId: null,
     }
     componentDidMount() {
         const projId = parseInt(this.props.match.params.projectId, 10);
         this.props.onFetchProjectDetails(projId, this.props.token);
     }
+    onShowRemoveTaskRequest = (id) => {
+        this.setState({ ...this.state, showRemoveTaskRequest: true, removeTaskId: id });
+    }
+    onConfirmTaskRemove = () => {
+        const projId = parseInt(this.props.match.params.projectId, 10);
+        this.props.onDeleteTask(this.state.removeTaskId, projId, this.props.token);
+        this.setState({ ...this.state, showRemoveTaskRequest: false, removeTaskId: null });
+    }
+    onCancelTaskRemove = () => {
+        this.setState({ ...this.state, showRemoveTaskRequest: false, removeTaskId: null });
+    };
     handleEditTask = (taskId) => {
         const projId = parseInt(this.props.match.params.projectId, 10);
         const project = !Number.isNaN(projId) && this.props.projects.find(p => p.id === projId);
 
         const task = this.deepSearch(taskId, project.items);
         this.props.history.push(`${this.props.location.pathname}/tasks/${taskId}/edit`, { ...task, projectId: projId });
-    }
+    };
     deepSearch = (id, object) => {
         if (object instanceof Array) {
             for (let i = 0; i < object.length; i += 1) {
@@ -42,37 +55,42 @@ class ProjectDetails extends Component {
         }
         return null;
     }
-    showRemoveTaskRequest = () => {
-        this.setState({ ...this.state, showRemoveTaskRequest: true });
-    }
     render() {
         const projId = parseInt(this.props.match.params.projectId, 10);
         const project = !Number.isNaN(projId) && this.props.projects.find(p => p.id === projId);
         const additionals = id => (
             <Fragment>
                 <button onClick={() => this.handleEditTask(id)}>Edit</button>
-                <button onClick={() => this.handleRemoveTask(id)}>Delete</button>
+                <button onClick={() => this.onShowRemoveTaskRequest(id)}>Delete</button>
             </Fragment>
         );
         return (
-            <React.Fragment>
-                <Project {...project} />
-                <p>Tasks:</p>
-                <ul>
-                    {(this.props.detailsLoading && <Spinner />)
-                        ||
-                        (project && project.items
-                            && project.items.map(item => (
-                                <Treeview
-                                    key={item.id}
-                                    {...item}
-                                    additionals={additionals}
-                                />)))
-                        || null
-                    }
-                </ul>
-                <button onClick={() => this.props.history.push(`${this.props.location.pathname}/tasks/add`)}>Add new task</button>
-            </React.Fragment >
+            <Fragment>
+                <Modal
+                    show={this.state.showRemoveTaskRequest}
+                    onOk={this.onConfirmTaskRemove}
+                    onCancel={this.onCancelTaskRemove}
+                >
+                    Are you sure you want to remove this task and all its subtasks (if any)?
+                </Modal>
+                {(this.props.detailsLoading && <Spinner />)
+                    ||
+                    <Fragment>
+                        <Project {...project} />
+                        <p>Tasks:</p>
+                        <ul>
+                            {(project && project.items
+                                && project.items.map(item => (
+                                    <Treeview
+                                        key={item.id}
+                                        {...item}
+                                        additionals={additionals}
+                                    />))) || null}
+                        </ul>
+                        <button onClick={() => this.props.history.push(`${this.props.location.pathname}/tasks/add`)}>Add new task</button>
+                    </Fragment>
+                }
+            </Fragment>
         );
     }
 }
@@ -84,5 +102,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     onFetchProjectDetails:
         (projectId, token) => dispatch(actions.fetchProjectDetails(projectId, token)),
+    onDeleteTask:
+        (taskId, projectId, token) => dispatch(actions.deleteTask(taskId, projectId, token)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);

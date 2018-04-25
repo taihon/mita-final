@@ -23,6 +23,11 @@ const fetchProjectDetailsSuccess = (state, payload) => {
     const updatedProjects = [...state.projects];
     return { ...state, projectDetailsLoading: false, projects: updatedProjects };
 };
+const fetchProjectSuccess = (state, payload) => ({
+    ...state,
+    isLoading: false,
+    projects: [{ ...payload, items: [] }],
+});
 const fetchProjectDetailsFailure = state => ({ ...state, projectDetailsLoading: false });
 const fetchProjectsError = state => ({ ...state, isLoading: false });
 export const projectsReducer = (state = initialState, action) => {
@@ -36,6 +41,8 @@ export const projectsReducer = (state = initialState, action) => {
             return fetchProjectDetailsSuccess(state, action.payload);
         case actionTypes.FETCH_PROJECT_DETAILS_FAILURE:
             return fetchProjectDetailsFailure(state, action.payload);
+        case actionTypes.FETCH_PROJECT_SUCCESS:
+            return fetchProjectSuccess(state, action.payload);
         default: return state;
     }
     /* eslint-enable */

@@ -34,6 +34,10 @@ class ProjectDetails extends Component {
         const task = this.deepSearch(taskId, project.items);
         this.props.history.push(`${this.props.location.pathname}/tasks/${taskId}/edit`, { ...task, projectId: projId });
     };
+    handleAddSubTask = (taskId) => {
+        const projId = parseInt(this.props.match.params.projectId, 10);
+        this.props.history.push(`${this.props.location.pathname}/tasks/add`, { parentId: taskId });
+    }
     deepSearch = (id, object) => {
         if (object instanceof Array) {
             for (let i = 0; i < object.length; i += 1) {
@@ -60,6 +64,7 @@ class ProjectDetails extends Component {
         const project = !Number.isNaN(projId) && this.props.projects.find(p => p.id === projId);
         const additionals = id => (
             <Fragment>
+                <button onClick={() => this.handleAddSubTask(id)}>Add subtask</button>
                 <button onClick={() => this.handleEditTask(id)}>Edit</button>
                 <button onClick={() => this.onShowRemoveTaskRequest(id)}>Delete</button>
             </Fragment>

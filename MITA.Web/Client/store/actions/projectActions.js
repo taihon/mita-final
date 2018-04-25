@@ -56,6 +56,9 @@ export const fetchProjectDetails = (projectId, token) => (dispatch) => {
 };
 export const addTaskToProject = (projectId, data, token) => (dispatch) => {
     dispatch({ type: actionTypes.ADD_TASK_START });
+    console.log('====================================');
+    console.log(data);
+    console.log('====================================');
     const config = { headers: { Authorization: `Bearer ${token}` } };
     axios
         .post(`/api/projects/${projectId}/tasks`, data, config)
@@ -79,5 +82,5 @@ export const deleteTask = (taskId, projectId, token) => (dispatch) => {
         .delete(`/api/projects/${projectId}/tasks/${taskId}`, config)
         .then(response => console.log(response))
         .catch(e => console.log(e));
-    dispatch({ type: actionTypes.DELETE_TASK_SUCCESS });
+    dispatch(fetchProjectDetails(projectId, token));
 };

@@ -17,7 +17,7 @@ export const Project = (props) => {
     }
     return (
         <Presenter>
-            <span>{props.title}</span>
+            <span>{props.title}{props.controls}</span>
             <ReactMarkdown source={description} skipHtml />
         </Presenter>
     );

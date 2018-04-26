@@ -93,3 +93,12 @@ export const deleteTask = (taskId, projectId, token) => (dispatch) => {
         .catch(e => console.log(e));
     dispatch(fetchProjectDetails(projectId, token));
 };
+export const saveProject = (data, token) => (dispatch) => {
+    dispatch({ type: actionTypes.SAVE_PROJECT_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .put(`/api/projects/${data.id}`, data, config)
+        .then(response => console.log(response))
+        .catch(e => console.log(e));
+    dispatch({ type: actionTypes.SAVE_PROJECT_SUCCESS });
+};

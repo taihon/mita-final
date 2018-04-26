@@ -4,6 +4,7 @@ export {
     createProject,
     importProject,
     fetchProjectDetails,
+    saveProject,
     addTaskToProject,
     saveTask,
     deleteTask,

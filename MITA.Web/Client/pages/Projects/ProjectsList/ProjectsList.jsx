@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -10,14 +10,26 @@ class ProjectsList extends Component {
     componentDidMount() {
         this.props.onRequestProjects(this.props.apiToken);
     }
+    editProjectHandler = (id) => {
+        this.props.history.push(`/projects/${id}/edit`, { ...this.props.projects.find(p => p.id === id) });
+    }
     render() {
         const content = this.props.isLoading
             ? <Spinner />
-            : this.props.projects.map(item => (
-                <NavLink to={`/projects/${item.id}`} key={item.id} >
-                    <Project title={item.title} />
-                </NavLink>
-            ));
+            : this.props.projects.map((item) => {
+                const controls = (
+                    <Fragment>
+                        <button onClick={() => this.editProjectHandler(item.id)}>&#9998;</button>
+                        <button>X</button>
+                    </Fragment>);
+                const title = (
+                    <Fragment>
+                        <NavLink to={`/projects/${item.id}`}>{item.title}</NavLink>
+                        {controls}
+                    </Fragment>
+                );
+                return <Project title={title} key={item.id} />;
+            });
         return (
             <div>
                 <h4>This is list of your actve projects</h4>

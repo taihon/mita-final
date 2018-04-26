@@ -7,9 +7,18 @@ width: 100%;
 box-sizing: border-box;
 border: 2px solid green;
 `;
-export const Project = props => (
-    <Presenter>
-        <span>{props.title}</span>
-        <ReactMarkdown source={props.description} skipHtml />
-    </Presenter>
-);
+export const Project = (props) => {
+    // workaround
+    let { description } = props;
+    if (description) {
+        do {
+            description = description.replace("\\n", "\n");
+        } while (description.indexOf("\\n") > -1);
+    }
+    return (
+        <Presenter>
+            <span>{props.title}</span>
+            <ReactMarkdown source={description} skipHtml />
+        </Presenter>
+    );
+};

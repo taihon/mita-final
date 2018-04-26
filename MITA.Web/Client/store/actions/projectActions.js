@@ -38,18 +38,24 @@ const projectDetails = (id, data) => ({
     type: actionTypes.FETCH_PROJECT_DETAILS_SUCCESS,
     payload: { id, items: data.items },
 });
+const replaceReturns = (data) => {
+    const o = {};
+    const keys = Object.keys(data);
+    for (let i = 0; i < keys.length; i += 1) {
+        o[keys[i]] = data[keys[i]] instanceof String ? data[keys[i]].replace('\\n', '\n') : data[keys[i]];
+    }
+    return o;
+};
 const fetchSingleProject = data => ({
     type: actionTypes.FETCH_PROJECT_SUCCESS,
-    payload: { ...data, description: data.description.replace(/¤n/g, '\n') },
+    payload: replaceReturns(data),
 });
 export const fetchProjectDetails = (projectId, token) => (dispatch) => {
     dispatch({ type: actionTypes.FETCH_PROJECT_DETAILS_START });
-    console.log(token);
     const config = { headers: { Authorization: `Bearer ${token}` } };
     axios
         .get(`/api/projects/${projectId}`, config)
         .then((response) => {
-            console.log(response);
             dispatch(fetchSingleProject(response.data));
             axios
                 .get(`/api/projects/${projectId}/tasks`, config)

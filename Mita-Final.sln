@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MITA.Entities", "MITA.Entit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MITA.ViewModels", "MITA.ViewModels\MITA.ViewModels.csproj", "{DB01B819-8CE1-4AC4-8735-3338320005C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MITA.Auth", "MITA.Auth\MITA.Auth.csproj", "{D61060A5-47DB-47A2-8F16-DC38E8201FF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MITA.Auth", "MITA.Auth\MITA.Auth.csproj", "{D61060A5-47DB-47A2-8F16-DC38E8201FF6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

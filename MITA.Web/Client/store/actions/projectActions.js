@@ -102,3 +102,12 @@ export const saveProject = (data, token) => (dispatch) => {
         .catch(e => console.log(e));
     dispatch({ type: actionTypes.SAVE_PROJECT_SUCCESS });
 };
+export const archiveProject = (id, token) => (dispatch) => {
+    dispatch({ type: actionTypes.ARCHIVE_PROJECT_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .post(`/api/projects/${id}/archive`, { projectId: id, confirm: true }, config)
+        .then(response => console.log(response))
+        .catch(e => console.log(e));
+    dispatch({ type: actionTypes.ARCHIVE_PROJECT_SUCCESS, payload: id });
+};

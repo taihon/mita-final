@@ -7,6 +7,10 @@ const initialState = {
     page: 0,
     projectDetailsLoading: false,
 };
+const archiveProjectSuccess = (state, id) => {
+    const projects = [...state.projects];
+    return { ...state, projects: projects.filter(p => p.id !== id) };
+};
 const fetchProjectsStart = state => ({ ...state, isLoading: true });
 const fetchProjectsSuccess = (state, payload) => ({
     ...state,
@@ -45,6 +49,8 @@ export const projectsReducer = (state = initialState, action) => {
             return fetchProjectDetailsFailure(state, action.payload);
         case actionTypes.FETCH_PROJECT_SUCCESS:
             return fetchProjectSuccess(state, action.payload);
+        case actionTypes.ARCHIVE_PROJECT_SUCCESS:
+            return archiveProjectSuccess(state, action.payload);
         default: return state;
     }
     /* eslint-enable */

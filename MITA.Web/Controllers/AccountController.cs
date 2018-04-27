@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MITA.Auth;
 using System.Security.Principal;
+using Google.Apis.Auth;
+
 namespace MITA.Web.Controllers
 {
     [Produces("application/json")]
@@ -43,7 +45,11 @@ namespace MITA.Web.Controllers
                 {
                     await _signInManager.SignInAsync(user, false);
                     var token = await GenerateToken(request.Email, user);
-                    return Ok(token);
+                    return Ok(new { token });
+                }
+                else
+                {
+                    return BadRequest(result.Errors);
                 }
             }
             return BadRequest(ModelState.Values.SelectMany(t=>t.Errors));
@@ -64,6 +70,42 @@ namespace MITA.Web.Controllers
             return StatusCode((int)StatusCodes.Status403Forbidden, "Authentication failure");
         }
 
+        [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [Route("extregister")]
+        public async Task<IActionResult> ExternalRegister([FromBody]UserExternalRegisterRequest request)
+        {
+            if (ModelState.IsValid) {
+                try
+                {
+                    var tokenIsValid = await GoogleJsonWebSignature.ValidateAsync(
+                        request.GoogleToken,
+                        new GoogleJsonWebSignature.ValidationSettings() { ForceGoogleCertRefresh = true, Audience = new string[]{ _configuration["googleclientid"]} });
+                    var googleToken = new JwtSecurityTokenHandler().ReadJwtToken(request.GoogleToken);
+                    var email = googleToken.Claims.First(c => c.Type == "email").Value;
+                    var user = new User { UserName = email, Email = email};
+                    var result = await _userManager.CreateAsync(user, request.Password);
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        var token = await GenerateToken(email, user);
+                        return Ok(new { token });
+                    }
+                    else
+                    {
+                        return BadRequest(result.Errors);
+                    }
+                }
+                catch(InvalidJwtException exception)
+                {
+                    ModelState.AddModelError("GoogleToken", $"Google token is invalid: {exception.Message}");
+                }
+            }
+            return BadRequest(ModelState.Values.SelectMany(e => e.Errors));
+        }
+
+        [HttpPost]
         private async Task<string> GenerateToken(string email, User user) {
             var claims = new List<Claim>
             {

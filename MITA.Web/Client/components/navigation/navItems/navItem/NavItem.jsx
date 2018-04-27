@@ -6,7 +6,6 @@ const StyledNavLink = styled(NavLink) `
         padding: 14px 20px 20px 20px;
         box-sizing: border-box;
         display: block;
-        width: 100%;
         text-decoration: none;
         color: white;
         &.active{

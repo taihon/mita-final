@@ -13,6 +13,8 @@ const ItemsList = styled.ul`
             flex-flow: column;
             @media (min-width: 500px){
                 flex-flow: row;
+                width:100%;
+                justify-content:flex-end;
             }
         `;
 export class NavItems extends Component {
@@ -28,6 +30,7 @@ export class NavItems extends Component {
         const notLoggedOn = [
             { caption: "Home", location: "/", exact: true, id: 1 },
             { caption: "Login", location: "/login", id: 2 },
+            { caption: "Register", location: "/register", id: 3 },
         ];
         const shownItems = (
             !this.props.IsAuthenticated

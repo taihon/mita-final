@@ -18,9 +18,9 @@ namespace MITA.Web.Controllers
     public class ProjectsController : Controller
     {
         [HttpGet]
-        public async Task<IActionResult> GetProjectsListAsync([FromServices]IProjectsListQuery query)
+        public async Task<IActionResult> GetProjectsListAsync([FromServices]IProjectsListQuery query, ProjectFilter filter)
         {
-            ListResponse<ProjectResponse> response = await query.RunAsync(Guid.Parse(getUserId()));
+            ListResponse<ProjectResponse> response = await query.RunAsync(Guid.Parse(getUserId()), filter);
             return Json(response);
         }
         [HttpPost]

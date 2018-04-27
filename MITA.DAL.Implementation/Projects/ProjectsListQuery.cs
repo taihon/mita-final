@@ -19,9 +19,9 @@ namespace MITA.DAL.Implementation.Projects
         {
             _context = context;
         }
-        public async Task<ListResponse<ProjectResponse>> RunAsync()
+        public async Task<ListResponse<ProjectResponse>> RunAsync(Guid userid)
         {
-            var projects = _context.Projects.Select(p => new ProjectResponse { Description = p.Description, Id = p.Id, Title = p.Title, Archived = p.Archived }); //leakage of EFCore into DAL project
+            var projects = _context.Projects.Where(p=>p.OwnerId == userid).Select(p => new ProjectResponse { Description = p.Description, Id = p.Id, Title = p.Title, Archived = p.Archived }); //leakage of EFCore into DAL project
             var projectCount = await projects.CountAsync();
             return new ListResponse<ProjectResponse> { Items = await projects.ToListAsync(), Page = 1, PageSize = -1, TotalItemsCount = projectCount };
         }

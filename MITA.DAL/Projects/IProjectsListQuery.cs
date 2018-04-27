@@ -7,6 +7,6 @@ namespace MITA.DAL.Projects
 {
     public interface IProjectsListQuery
     {
-        Task<ListResponse<ProjectResponse>> RunAsync();
+        Task<ListResponse<ProjectResponse>> RunAsync(Guid userid);
     }
 }

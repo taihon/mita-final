@@ -20,7 +20,7 @@ namespace MITA.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProjectsListAsync([FromServices]IProjectsListQuery query)
         {
-            ListResponse<ProjectResponse> response = await query.RunAsync();
+            ListResponse<ProjectResponse> response = await query.RunAsync(Guid.Parse(getUserId()));
             return Json(response);
         }
         [HttpPost]

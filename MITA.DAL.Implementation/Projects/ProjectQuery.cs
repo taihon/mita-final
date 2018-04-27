@@ -1,4 +1,5 @@
-﻿using MITA.DAL.Projects;
+﻿using Microsoft.EntityFrameworkCore;
+using MITA.DAL.Projects;
 using MITA.DB;
 using MITA.Entities;
 using MITA.ViewModels.Projects;
@@ -17,9 +18,9 @@ namespace MITA.DAL.Implementation.Projects
         {
             _context = context;
         }
-        public async Task<ProjectResponse> RunAsync(int projectId)
+        public async Task<ProjectResponse> RunAsync(int projectId, Guid userId)
         {
-            Project project = await _context.Projects.FindAsync(projectId);
+            Project project = await _context.Projects.FirstOrDefaultAsync(p=>p.Id == projectId && p.OwnerId == userId);
             if(project == null)
             {
                 return null;

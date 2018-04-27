@@ -39,7 +39,7 @@ namespace MITA.Web.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetProjectAsync(int projectId, [FromServices]IProjectQuery query)
         {
-            ProjectResponse response = await query.RunAsync(projectId);
+            ProjectResponse response = await query.RunAsync(projectId, Guid.Parse(getUserId()));
             return response == null ? (IActionResult)NotFound() : Ok(response);
         }
         [HttpPost]

@@ -1,11 +1,13 @@
 export { login, logout, checkAuthStatus, externalRegister, register } from './authActions';
 export {
     requestProjects,
+    requestArchivedProjects,
     createProject,
     importProject,
     fetchProjectDetails,
     saveProject,
     archiveProject,
+    unarchiveProject,
     addTaskToProject,
     saveTask,
     deleteTask,

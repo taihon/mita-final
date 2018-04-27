@@ -6,11 +6,32 @@ const initialState = {
     pagesCount: 0,
     page: 0,
     projectDetailsLoading: false,
+    archivedProjects: [],
+    archiveIsLoading: false,
 };
 const archiveProjectSuccess = (state, id) => {
     const projects = [...state.projects];
-    return { ...state, projects: projects.filter(p => p.id !== id) };
+    return {
+        ...state,
+        projects: projects.filter(p => p.id !== id),
+        archivedProjects: [...state.archivedProjects, projects.filter(p => p.id === id)],
+    };
 };
+const unarchiveProjectSuccess = (state, id) => {
+    const archivedProjects = [...state.archivedProjects];
+    return {
+        ...state,
+        projects: [...state.projects, archivedProjects.filter(p => p.id === id)],
+        archivedProjects: archivedProjects.filter(p => p.id !== id),
+    };
+};
+const fetchArchiveStart = state => ({ ...state, archiveIsLoading: true });
+const fetchArchiveFailure = state => ({ ...state, archivedProjects: [] });
+const fetchArchiveSuccess = (state, payload) => ({
+    ...state,
+    archiveIsLoading: false,
+    archivedProjects: payload.items,
+});
 const fetchProjectsStart = state => ({ ...state, isLoading: true });
 const fetchProjectsSuccess = (state, payload) => ({
     ...state,
@@ -51,6 +72,14 @@ export const projectsReducer = (state = initialState, action) => {
             return fetchProjectSuccess(state, action.payload);
         case actionTypes.ARCHIVE_PROJECT_SUCCESS:
             return archiveProjectSuccess(state, action.payload);
+        case actionTypes.FETCH_ARCHIVE_SUCCESS:
+            return fetchArchiveSuccess(state, action.payload);
+        case actionTypes.FETCH_ARCHIVE_FAILURE:
+            return fetchArchiveFailure(state);
+        case actionTypes.FETCH_ARCHIVE_START:
+            return fetchArchiveStart(state);
+        case actionTypes.UNARCHIVE_PROJECT_SUCCESS:
+            return unarchiveProjectSuccess(state, action.payload);
         default: return state;
     }
     /* eslint-enable */

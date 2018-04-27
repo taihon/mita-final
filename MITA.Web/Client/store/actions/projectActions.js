@@ -111,3 +111,24 @@ export const archiveProject = (id, token) => (dispatch) => {
         .catch(e => console.log(e));
     dispatch({ type: actionTypes.ARCHIVE_PROJECT_SUCCESS, payload: id });
 };
+export const requestArchivedProjects = token => (dispatch) => {
+    dispatch({ type: actionTypes.FETCH_ARCHIVE_START });
+    // because of way react renders components
+    axios.get("/api/projects?archived=true", {
+        headers: { Authorization: `Bearer ${token}` },
+    })
+        .then(response =>
+            dispatch({
+                type: actionTypes.FETCH_ARCHIVE_SUCCESS,
+                payload: { ...response.data },
+            }))
+        .catch(error => dispatch({ type: actionTypes.FETCH_ARCHIVE_FAILURE }));
+};
+export const unarchiveProject = (id, token) => (dispatch) => {
+    dispatch({ type: actionTypes.UNARCHIVE_PROJECT_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .post(`/api/projects/${id}/restore`, { projectId: id, confirm: true }, config)
+        .then(() => dispatch({ type: actionTypes.UNARCHIVE_PROJECT_SUCCESS, payload: id }))
+        .catch(() => dispatch({ type: actionTypes.UNARCHIVE_PROJECT_FAILURE }));
+};

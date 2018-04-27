@@ -35,7 +35,8 @@
         "react/jsx-indent-props": [
             1,
             4
-        ]
+        ],
+        "template-tag-spacing": "off"
     },
     "globals": {
         "browser": true,

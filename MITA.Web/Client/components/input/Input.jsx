@@ -6,9 +6,6 @@ const Input = styled.input`
             width:100%;
             padding: 12px;
             margin-bottom:6px;
-            &:last-of-type{
-                margin-bottom:0;
-            }
             &:placeholder{
                 color: #eee;
             }

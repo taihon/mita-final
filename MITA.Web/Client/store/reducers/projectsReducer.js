@@ -57,6 +57,15 @@ const fetchProjectSuccess = (state, payload) => ({
 });
 const fetchProjectDetailsFailure = state => ({ ...state, projectDetailsLoading: false });
 const fetchProjectsError = state => ({ ...state, isLoading: false });
+const saveTaskSuccess = (state, payload) => {
+    const newProjects = [...state.projects];
+    const updatedProject = newProjects.find(p => p.id === payload.projectId);
+    return { ...state, projects: newProjects };
+};
+const saveTaskFailure = (state, action) => {
+    console.log(action);
+    return state;
+};
 export const projectsReducer = (state = initialState, action) => {
     /* eslint-disable indent */
     switch (action.type) {
@@ -80,6 +89,10 @@ export const projectsReducer = (state = initialState, action) => {
             return fetchArchiveStart(state);
         case actionTypes.UNARCHIVE_PROJECT_SUCCESS:
             return unarchiveProjectSuccess(state, action.payload);
+        case actionTypes.SAVE_TASK_SUCCESS:
+            return saveTaskSuccess(state, action.payload);
+        case actionTypes.SAVE_TASK_FAILURE:
+            return saveTaskFailure(state, action);
         default: return state;
     }
     /* eslint-enable */

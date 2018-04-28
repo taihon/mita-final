@@ -22,10 +22,12 @@ color:${colors.dark}
 
 const Projects = props => (
     <Page>
-        <div>
-            <StyledNavLink to="/projects" exact>Active</StyledNavLink>
-            <StyledNavLink to="/projects/archived">Archived</StyledNavLink>
-        </div>
+        {props.location.pathname === '/projects' &&
+            <div>
+                <StyledNavLink to="/projects" exact>Active</StyledNavLink>
+                <StyledNavLink to="/projects/archived">Archived</StyledNavLink>
+            </div>
+        }
         <Switch>
             <Route path={`${props.match.path}/add`} component={AddProject} />
             <Route path={`${props.match.path}/import`} component={ImportProjects} />

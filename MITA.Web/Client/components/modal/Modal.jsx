@@ -11,21 +11,24 @@ left:0;
 right:0;
 background-color:rgba(0,0,0,0.3);
 z-index:100;
+display:flex;
+align-items:center;
+justify-content:center;
 `;
 const ModalContent = styled.div`
 position:relative;
 top:75px;
-background-color:${colors.light};
+background-color:${colors.background};
 max-width: 500px;
-min-height: 300px;
 margin: 0 auto;
 padding: 30px;
 `;
 export const Modal = props => (
     props.show &&
-    <Backdrop>
+    <Backdrop onClick={props.onCancel}>
         <ModalContent>
             {props.children}
+            <br />
             <button onClick={props.onOk}>OK</button>
             <button onClick={props.onCancel}>Cancel</button>
         </ModalContent>

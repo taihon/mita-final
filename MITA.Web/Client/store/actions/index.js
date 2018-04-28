@@ -10,6 +10,7 @@ export {
     unarchiveProject,
     addTaskToProject,
     saveTask,
+    completeTask,
     deleteTask,
 } from './projectActions';
 export {

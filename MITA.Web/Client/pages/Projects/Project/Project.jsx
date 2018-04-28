@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 const Presenter = styled.div`
 width: 100%;
 box-sizing: border-box;
-border: 2px solid green;
+background:white;
 `;
 export const Project = (props) => {
     // workaround

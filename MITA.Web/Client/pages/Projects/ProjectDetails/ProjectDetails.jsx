@@ -37,6 +37,10 @@ class ProjectDetails extends Component {
     handleAddSubTask = (taskId) => {
         this.props.history.push(`${this.props.location.pathname}/tasks/add`, { parentId: taskId });
     }
+    handleCompleteTask = (taskId) => {
+        const projectId = parseInt(this.props.match.params.projectId, 10);
+        this.props.onCompleteTask({ taskId, projectId }, this.props.token);
+    }
     deepSearch = (id, object) => {
         if (object instanceof Array) {
             for (let i = 0; i < object.length; i += 1) {
@@ -61,8 +65,11 @@ class ProjectDetails extends Component {
     render() {
         const projId = parseInt(this.props.match.params.projectId, 10);
         const project = !Number.isNaN(projId) && this.props.projects.find(p => p.id === projId);
-        const additionals = id => (
+        const additionals = (id, completed = false) => (
             <Fragment>
+                {!completed &&
+                    <button onClick={() => this.handleCompleteTask(id)}>Completed</button>
+                }
                 <button onClick={() => this.handleAddSubTask(id)}>Add subtask</button>
                 <button onClick={() => this.handleEditTask(id)}>Edit</button>
                 <button onClick={() => this.onShowRemoveTaskRequest(id)}>Delete</button>
@@ -108,5 +115,7 @@ const mapDispatchToProps = dispatch => ({
         (projectId, token) => dispatch(actions.fetchProjectDetails(projectId, token)),
     onDeleteTask:
         (taskId, projectId, token) => dispatch(actions.deleteTask(taskId, projectId, token)),
+    onCompleteTask:
+        (payload, token) => dispatch(actions.completeTask(payload, token)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectDetails);

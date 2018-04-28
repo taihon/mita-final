@@ -132,3 +132,11 @@ export const unarchiveProject = (id, token) => (dispatch) => {
         .then(() => dispatch({ type: actionTypes.UNARCHIVE_PROJECT_SUCCESS, payload: id }))
         .catch(() => dispatch({ type: actionTypes.UNARCHIVE_PROJECT_FAILURE }));
 };
+export const completeTask = ({ taskId, projectId }, token) => (dispatch) => {
+    dispatch({ type: actionTypes.SAVE_TASK_START });
+    const config = { headers: { Authorization: `Bearer ${token}` } };
+    axios
+        .put(`/api/projects/${projectId}/tasks/${taskId}`, { completed: true }, config)
+        .then(() => dispatch(fetchProjectDetails(projectId, token)))
+        .catch(e => dispatch({ type: actionTypes.SAVE_TASK_FAILURE, payload: e }));
+};

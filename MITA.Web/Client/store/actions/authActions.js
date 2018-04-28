@@ -72,3 +72,14 @@ export const externalRegister = data => (dispatch) => {
             payload: e.response && e.response.data ? e.response.data : e,
         }));
 };
+export const externalLogin = data => (dispatch) => {
+    dispatch({ type: actionTypes.EXT_LOGIN_START });
+    axios
+        .post(`/api/account/extlogin`, data)
+        .then((response) => {
+            localStorage.setItem("token", response.data.token);
+            dispatch(authSuccess(response.data.token));
+            dispatch({ type: actionTypes.EXT_LOGIN_SUCCESS });
+        })
+        .catch(e => dispatch({ type: actionTypes.EXT_LOGIN_FAILURE, payload: { ...e } }));
+};

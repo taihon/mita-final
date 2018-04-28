@@ -1,4 +1,4 @@
-export { login, logout, checkAuthStatus, externalRegister, register } from './authActions';
+export { login, externalLogin, logout, checkAuthStatus, externalRegister, register } from './authActions';
 export {
     requestProjects,
     requestArchivedProjects,

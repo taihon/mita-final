@@ -106,6 +106,36 @@ namespace MITA.Web.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(401)]
+        [Route("extlogin")]
+        public async Task<IActionResult> ExternalLogin([FromBody]UserExternalLoginRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var tokenIsValid = await GoogleJsonWebSignature.ValidateAsync(
+                        request.Token,
+                        new GoogleJsonWebSignature.ValidationSettings() { ForceGoogleCertRefresh = true, Audience = new string[] { _configuration["googleclientid"] } });
+                    var googleToken = new JwtSecurityTokenHandler().ReadJwtToken(request.Token);
+                    var email = googleToken.Claims.First(c => c.Type == "email").Value;
+                    var user = await _userManager.FindByEmailAsync(email);
+                    if (user != null)
+                    {
+                        await _signInManager.SignInAsync(user, false);
+                        var token = await GenerateToken(email, user);
+                        return Ok(new { token });
+                    }
+                }
+                catch (InvalidJwtException ex)
+                {
+                    ModelState.AddModelError("token", "Token is not valid Google Apps token");
+                }
+            }
+            return BadRequest(ModelState.Values.SelectMany(e=>e.Errors));
+        }
+        [HttpPost]
         private async Task<string> GenerateToken(string email, User user) {
             var claims = new List<Claim>
             {

@@ -2,8 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import Input from '../../../components/input/Input';
-import { Select } from '../../../components/select/Select';
+import { Input, Select, validate, validateFormInState, FlatButton } from '../../../components';
 import * as actions from '../../../store/actions';
 
 class EditTask extends Component {
@@ -12,13 +11,27 @@ class EditTask extends Component {
             // react anti-pattern?
             priority: {
                 value: this.props.location.state && this.props.location.state.priority,
+                valid: true,
             },
             title: {
                 value: this.props.location.state && this.props.location.state.title,
+                valid: true,
+                changed: false,
+                validation: {
+                    required: true,
+                    maxLength: 200,
+                },
             },
             dueDate: {
                 value: this.props.location.state && this.props.location.state.dueDate.slice(0, 10),
+                valid: true,
+                changed: false,
+                validation: {
+                    required: true,
+                    notBeforeToday: true,
+                },
             },
+            formIsValid: true,
         },
         id: this.props.location.state && this.props.location.state.id,
         projectId: this.props.location.state && this.props.location.state.projectId,
@@ -27,6 +40,9 @@ class EditTask extends Component {
         const { form } = this.state;
         const edited = form[event.target.id];
         edited.value = event.target.value;
+        edited.valid = validate(event.target.value, edited.validation);
+        edited.changed = true;
+        form.formIsValid = validateFormInState(form);
         this.setState({ ...this.state, form });
     }
     onSaveHandler = () => {
@@ -54,12 +70,16 @@ class EditTask extends Component {
                     placeholder="Task title"
                     value={this.state.form.title.value}
                     onChange={this.onChangeHandler}
+                    valid={this.state.form.title.valid}
+                    changed={this.state.form.title.changed}
                 />
                 <Input
                     type="date"
                     id="dueDate"
                     onChange={this.onChangeHandler}
                     value={this.state.form.dueDate.value}
+                    valid={this.state.form.dueDate.valid}
+                    changed={this.state.form.dueDate.changed}
                 />
                 <Select
                     id="priority"
@@ -70,8 +90,12 @@ class EditTask extends Component {
                     <option value="0">Medium</option>
                     <option value="1">High</option>
                 </Select>
-                <button onClick={this.onSaveHandler}>Save</button>
-                <button onClick={this.returnToList}>Cancel</button>
+                <FlatButton
+                    onClick={this.onSaveHandler}
+                    disabled={!this.state.form.formIsValid}
+                >Save
+                </FlatButton>
+                <FlatButton onClick={this.returnToList}>Cancel</FlatButton>
             </Fragment>
         );
 

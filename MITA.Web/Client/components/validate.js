@@ -26,6 +26,9 @@ export const validate = (value, rules) => {
     if (rules.isEmail) {
         valid = /^.+?@.+?\..+?$/.test(value) && valid;
     }
+    if (rules.notBeforeToday) {
+        valid = (new Date(value) >= new Date(new Date().toISOString().slice(0, 10))) && valid;
+    }
     return valid;
 };
 export const validateFormInState = state =>

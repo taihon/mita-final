@@ -14,7 +14,8 @@ import EditProject from './EditProject/EditProject';
 import { colors } from '../../components/styles';
 
 const StyledNavLink = styled(NavLink) `
-color:${colors.dark}
+color: ${colors.dark};
+margin-left: 16px;
 &.active{
     text-decoration:none;
 }
@@ -22,10 +23,17 @@ color:${colors.dark}
 
 const Projects = props => (
     <Page>
-        {(props.location.pathname === '/projects' || props.location.pathname === "/projects/archived") &&
+        {(
+            props.location.pathname === '/projects'
+            ||
+            props.location.pathname === "/projects/archived"
+            ||
+            props.location.pathname === "/projects/import"
+        ) &&
             <div>
                 <StyledNavLink to="/projects" exact>Active</StyledNavLink>
                 <StyledNavLink to="/projects/archived">Archived</StyledNavLink>
+                <StyledNavLink to="/projects/import">Import from Todoist</StyledNavLink>
             </div>
         }
         <Switch>

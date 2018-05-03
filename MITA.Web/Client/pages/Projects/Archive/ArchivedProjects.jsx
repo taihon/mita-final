@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { Project } from './../Project/Project';
 import * as actions from '../../../store/actions';
-import { Spinner } from '../../../components/spinner/Spinner';
-import { Modal } from '../../../components/modal/Modal';
+import { FlatButton, Modal, Spinner } from '../../../components';
 
 class ArchivedProjects extends Component {
     state = {
@@ -31,10 +29,10 @@ class ArchivedProjects extends Component {
             : this.props.projects.map((item) => {
                 const controls = (
                     <Fragment>
-                        <button onClick={() =>
+                        <FlatButton onClick={() =>
                             this.requestProjectUnarchiveHandler(item.id)}
                         >Unarchive
-                        </button>
+                        </FlatButton>
                     </Fragment>);
                 const title = (
                     <Fragment>

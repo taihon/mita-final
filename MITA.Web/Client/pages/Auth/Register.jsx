@@ -8,7 +8,7 @@ import { FlatButton } from '../../components/flatbutton/FlatButton';
 import * as actions from '../../store/actions';
 import Input from '../../components/input/Input';
 import extProviderConfig from '../../store/extProviderConfig';
-import { validate } from '../../components/validate';
+import { validate, validateFormInState } from '../../components/validate';
 
 class Register extends Component {
     state = {
@@ -46,19 +46,21 @@ class Register extends Component {
             valid: false,
             changed: false,
         },
+        formIsValid: false,
     }
     onChangeHandler = (event) => {
         const control = this.state[event.target.id];
         control.valid = validate(event.target.value, control.validation);
         control.value = event.target.value;
         control.changed = true;
-        this.setState({ [event.target.id]: control });
+        const formIsValid = validateFormInState(this.state);
+        this.setState({ [event.target.id]: control, formIsValid });
     }
     onGoogleSuccess = (response) => {
         const token = response.tokenObj.id_token;
         const tokenData = decode(token);
         if (tokenData.azp === extProviderConfig.google.clientId) {
-            this.setState({ googleToken: token, email: { value: tokenData.email } });
+            this.setState({ googleToken: token, email: { value: tokenData.email, valid: true } });
         }
     };
     onGoogleError = error => console.log(error);
@@ -104,6 +106,7 @@ class Register extends Component {
                 <FlatButton
                     style={{ width: '100%', marginLeft: 0, marginTop: 0 }}
                     onClick={this.onRegister}
+                    disabled={!this.state.formIsValid}
                 >Register
                 </FlatButton>
                 <GoogleLogin
@@ -133,6 +136,7 @@ class Register extends Component {
                     <FlatButton
                         style={{ width: '100%', marginLeft: 0, marginTop: 0 }}
                         onClick={this.onExternalRegister}
+                        disabled={!this.state.formIsValid}
                     >Complete registration
                     </FlatButton>
                 </Fragment>

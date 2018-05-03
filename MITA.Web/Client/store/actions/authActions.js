@@ -13,13 +13,14 @@ const authSuccess = (token) => {
         payload: userinfo,
     };
 };
-export const login = (email, password) => (dispatch) => {
+export const login = (email, password, callback) => (dispatch) => {
     dispatch({ type: actionTypes.AUTH_LOGIN_START });
     axios
         .post("/api/account/login", { email, password })
         .then((data) => {
             localStorage.setItem("token", data.data.token);
             dispatch(authSuccess(data.data.token));
+            if (callback !== null) { callback(); }
         })
         .catch(error => console.log(error));
 };
@@ -72,7 +73,7 @@ export const externalRegister = data => (dispatch) => {
             payload: e.response && e.response.data ? e.response.data : e,
         }));
 };
-export const externalLogin = data => (dispatch) => {
+export const externalLogin = (data, callback) => (dispatch) => {
     dispatch({ type: actionTypes.EXT_LOGIN_START });
     axios
         .post(`/api/account/extlogin`, data)
@@ -80,6 +81,7 @@ export const externalLogin = data => (dispatch) => {
             localStorage.setItem("token", response.data.token);
             dispatch(authSuccess(response.data.token));
             dispatch({ type: actionTypes.EXT_LOGIN_SUCCESS });
+            if (callback !== null) { callback(); }
         })
         .catch(e => dispatch({ type: actionTypes.EXT_LOGIN_FAILURE, payload: { ...e } }));
 };

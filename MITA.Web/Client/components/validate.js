@@ -24,7 +24,12 @@ export const validate = (value, rules) => {
         /* eslint-enable */
     }
     if (rules.isEmail) {
-        valid = /^.+?@.+?\..+?$/.test(value) && value;
+        valid = /^.+?@.+?\..+?$/.test(value) && valid;
     }
     return valid;
 };
+export const validateFormInState = state =>
+    Object.values(state)
+        .filter(v =>
+            Object.prototype.hasOwnProperty.call(v, "valid"))
+        .every(t => t.valid);

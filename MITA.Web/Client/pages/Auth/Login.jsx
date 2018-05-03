@@ -8,14 +8,14 @@ import { FlatButton } from '../../components/flatbutton/FlatButton';
 import Input from '../../components/input/Input';
 import * as actions from '../../store/actions';
 import extProviderConfig from '../../store/extProviderConfig';
-import { validate } from '../../components/validate';
+import { validate, validateFormInState } from '../../components/validate';
 
 class Login extends Component {
     state = {
         login: {
             value: "",
             validation: {
-                isRequired: true,
+                required: true,
                 isEmail: true,
             },
             valid: false,
@@ -24,7 +24,7 @@ class Login extends Component {
         password: {
             value: "",
             validation: {
-                isRequired: true,
+                required: true,
                 hasUpper: true,
                 hasLower: true,
                 hasNumbers: true,
@@ -33,13 +33,14 @@ class Login extends Component {
             valid: false,
             changed: false,
         },
+        formIsValid: false,
     }
     onGoogleSuccess = (response) => {
         const token = response.tokenObj.id_token;
         const tokenData = decode(token);
         if (tokenData.azp === extProviderConfig.google.clientId) {
             this.setState({ googleToken: token, email: { value: tokenData.email } });
-            this.props.onExtLogin({ token });
+            this.props.onExtLogin({ token }, this.successfulLoginCallback);
         }
     };
     onGoogleError = error => console.log(error);
@@ -48,11 +49,17 @@ class Login extends Component {
         control.valid = validate(event.target.value, control.validation);
         control.value = event.target.value;
         control.changed = true;
-        this.setState({ [event.target.id]: control });
+        const formIsValid = validateFormInState(this.state);
+        this.setState({ [event.target.id]: control, formIsValid });
+    }
+    successfulLoginCallback = () => {
+        this.props.history.push("/projects");
     }
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.login.value, this.state.password.value);
+        const { login: { value: login },
+            password: { value: password } } = this.state;
+        this.props.onAuth(login, password, this.successfulLoginCallback);
     }
     render() {
         return (
@@ -75,7 +82,7 @@ class Login extends Component {
                         changed={this.state.password.changed}
                         valid={this.state.password.valid}
                     />
-                    <FlatButton type="submit">Login</FlatButton><br />
+                    <FlatButton type="submit" disabled={!this.state.formIsValid}>Login</FlatButton><br />
                 </form>
                 <GoogleLogin
                     buttonText="Login with Google"
@@ -95,9 +102,9 @@ const mapStateToProps = state => (
 );
 const mapDispatchToProps = dispatch => (
     {
-        onAuth: (email, password) =>
-            dispatch(actions.login(email, password)),
-        onExtLogin: data => dispatch(actions.externalLogin(data)),
+        onAuth: (email, password, callback) =>
+            dispatch(actions.login(email, password, callback)),
+        onExtLogin: (data, callback) => dispatch(actions.externalLogin(data, callback)),
     }
 );
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

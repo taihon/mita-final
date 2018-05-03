@@ -11,4 +11,7 @@ export const FlatButton = styled.button`
     padding: 10px;
     margin: 10px;
     font-weight: bold;
+    &:disabled{
+        color:#666;
+    }
 `;

@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import Input from '../input/Input';
 
 export const TextArea = Input.extend`

@@ -1,48 +1,80 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
-import { Page } from '../../../components/page/Page';
-
 import * as actions from '../../../store/actions';
+import { validate } from '../../../components/validate';
+import Input from '../../../components/input/Input';
+import { TextArea } from '../../../components/textarea/TextArea';
 
 class AddProject extends Component {
     state = {
-        form: {
-            title: 'new test project',
-            description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quo distinctio in ratione praesentium eos aliquam accusamus corporis eligendi neque quam laudantium alias hic mollitia earum ab itaque, quisquam incidunt quidem!',
+        title: {
+            value: '',
+            valid: false,
+            changed: false,
+            validation: {
+                required: true,
+            },
+        },
+        description: {
+            value: '',
+            valid: true,
+            changed: false,
+            validation: {},
         },
     }
-    returnToList = () => {
-        this.props.history.goBack();
+    onChangeHandler = (event) => {
+        const control = this.state[event.target.id];
+        control.valid = validate(event.target.value, control.validation);
+        control.value = event.target.value;
+        control.changed = true;
+        this.setState({ [event.target.id]: control });
     }
     createProjectHandler = (event) => {
         event.preventDefault();
         this.props.onCreateProject(
-            this.state.form.title,
-            this.state.form.description, this.props.authToken,
+            this.state.title.value,
+            this.state.description.value,
+            this.props.authToken,
         );
+    }
+    returnToList = () => {
+        this.props.history.goBack();
     }
     render() {
         return (
-            <Page>
-                <h3>Here will be add project form</h3>
+            <Fragment>
+                <h3>Fill in title and description of new project</h3>
                 <button onClick={this.returnToList}>&lt;&lt;return to list</button>
                 <form>
                     <label htmlFor="title">
                         Title
                         <br />
-                        <input type="text" id="title" />
+                        <Input
+                            type="text"
+                            id="title"
+                            onChange={this.onChangeHandler}
+                            changed={this.state.title.changed}
+                            valid={this.state.title.valid}
+                            value={this.state.title.value}
+                        />
                     </label>
                     <br />
                     <label htmlFor="description">
                         Description
                         <br />
-                        <textarea id="description" />
+                        <TextArea
+                            id="description"
+                            onChange={this.onChangeHandler}
+                            value={this.state.description.value}
+                            changed={this.state.description.changed}
+                            valid={this.state.description.valid}
+                        />
                     </label>
                     <br />
-                    <button type="submit" onClick={this.createProjectHandler}>Submit</button>
+                    <button type="submit" onClick={this.createProjectHandler}>Create project</button>
                 </form>
-            </Page>
+            </Fragment>
         );
     }
 }

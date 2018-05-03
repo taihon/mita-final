@@ -22,7 +22,7 @@ color:${colors.dark}
 
 const Projects = props => (
     <Page>
-        {props.location.pathname === '/projects' &&
+        {(props.location.pathname === '/projects' || props.location.pathname === "/projects/archived") &&
             <div>
                 <StyledNavLink to="/projects" exact>Active</StyledNavLink>
                 <StyledNavLink to="/projects/archived">Archived</StyledNavLink>

@@ -1,5 +1,5 @@
 import { FlatButton } from "./flatbutton/FlatButton";
-import { Input } from "./input/Input";
+import Input from "./input/Input";
 import { Modal } from "./modal/Modal";
 import { ToolBar } from "./navigation/toolbar/Toolbar";
 import { Page } from "./page/Page";

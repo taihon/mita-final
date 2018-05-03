@@ -2,13 +2,20 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions';
-import { Select } from '../../../components/select/Select';
-import Input from '../../../components/input/Input';
+import { validate, validateFormInState, FlatButton, Select, Input } from '../../../components';
 
 class AddTask extends Component {
     state = {
         form: {
-            title: { value: "" },
+            title: {
+                value: "",
+                valid: false,
+                changed: false,
+                validation: {
+                    required: true,
+                    maxLength: 200,
+                },
+            },
             dueDate: {
                 // hack to set dueDate to tomorrow
                 value: new Date(new Date()
@@ -16,16 +23,24 @@ class AddTask extends Component {
                     .toISOString().slice(0, 10),
             },
             priority: { value: 0 },
+            formIsValid: false,
         },
     }
     onChangeHandler = (event) => {
         const updatedForm = { ...this.state.form };
         const updatedElement = { ...updatedForm[event.target.id] };
         updatedElement.value = event.target.value;
+        updatedElement.changed = true;
+        updatedElement.valid = validate(event.target.value, updatedElement.validation);
         updatedForm[event.target.id] = updatedElement;
+        updatedForm.formIsValid = validateFormInState(updatedForm);
         this.setState({ form: updatedForm });
     }
-    AddTaskHandler = () => {
+    onCancelHandler = () => {
+        const newUri = this.props.location.pathname.split("/").slice(0, -2).join("/");
+        this.props.history.push(newUri);
+    }
+    onAddTaskHandler = () => {
         const projectId = parseInt(this.props.match.params.projectId, 10);
         const { parentId = null } = this.props.location.state || {};
         const payload = { projectId, parentId };
@@ -40,7 +55,14 @@ class AddTask extends Component {
     render() {
         return (
             <Fragment>
-                <Input id="title" placeholder="Task title" value={this.state.form.title.value} onChange={this.onChangeHandler} />
+                <Input
+                    id="title"
+                    placeholder="Task title"
+                    value={this.state.form.title.value}
+                    onChange={this.onChangeHandler}
+                    changed={this.state.form.title.changed}
+                    valid={this.state.form.title.valid}
+                />
                 <Input
                     type="date"
                     id="dueDate"
@@ -52,8 +74,12 @@ class AddTask extends Component {
                     <option value="0">Medium</option>
                     <option value="1">High</option>
                 </Select>
-                <button onClick={this.AddTaskHandler}>Add</button>
-                <button>Cancel</button>
+                <FlatButton
+                    onClick={this.onAddTaskHandler}
+                    disabled={!this.state.form.formIsValid}
+                >Add
+                </FlatButton>
+                <FlatButton onClick={this.onCancelHandler}>Cancel</FlatButton>
             </Fragment>
         );
     }

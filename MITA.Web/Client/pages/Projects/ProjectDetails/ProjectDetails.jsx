@@ -25,6 +25,9 @@ class ProjectDetails extends Component {
     onCancelTaskRemove = () => {
         this.setState({ ...this.state, showRemoveTaskRequest: false, removeTaskId: null });
     };
+    onBackHandler = () => {
+        this.props.history.push("/projects");
+    }
     handleEditTask = (taskId) => {
         const projId = parseInt(this.props.match.params.projectId, 10);
         const project = !Number.isNaN(projId) && this.props.projects.find(p => p.id === projId);
@@ -82,6 +85,7 @@ class ProjectDetails extends Component {
                 >
                     Are you sure you want to remove this task and all its subtasks (if any)?
                 </Modal>
+                <FlatButton onClick={this.onBackHandler}>Go back to list</FlatButton>
                 {(this.props.detailsLoading && <Spinner />)
                     ||
                     <Fragment>

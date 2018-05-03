@@ -57,8 +57,6 @@ class Register extends Component {
     onGoogleSuccess = (response) => {
         const token = response.tokenObj.id_token;
         const tokenData = decode(token);
-        console.log(tokenData);
-
         if (tokenData.azp === extProviderConfig.google.clientId) {
             this.setState({ googleToken: token, email: { value: tokenData.email } });
         }

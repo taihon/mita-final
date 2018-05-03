@@ -8,11 +8,31 @@ import { FlatButton } from '../../components/flatbutton/FlatButton';
 import Input from '../../components/input/Input';
 import * as actions from '../../store/actions';
 import extProviderConfig from '../../store/extProviderConfig';
+import { validate } from '../../components/validate';
 
 class Login extends Component {
     state = {
-        login: "",
-        password: "",
+        login: {
+            value: "",
+            validation: {
+                isRequired: true,
+                isEmail: true,
+            },
+            valid: false,
+            changed: false,
+        },
+        password: {
+            value: "",
+            validation: {
+                isRequired: true,
+                hasUpper: true,
+                hasLower: true,
+                hasNumbers: true,
+                hasSpecials: true,
+            },
+            valid: false,
+            changed: false,
+        },
     }
     onGoogleSuccess = (response) => {
         const token = response.tokenObj.id_token;
@@ -23,15 +43,16 @@ class Login extends Component {
         }
     };
     onGoogleError = error => console.log(error);
-    inputChangedHandler = (event, control) => {
-        this.setState({
-            ...this.state,
-            [control]: event.target.value,
-        });
+    inputChangedHandler = (event) => {
+        const control = this.state[event.target.id];
+        control.valid = validate(event.target.value, control.validation);
+        control.value = event.target.value;
+        control.changed = true;
+        this.setState({ [event.target.id]: control });
     }
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.login, this.state.password);
+        this.props.onAuth(this.state.login.value, this.state.password.value);
     }
     render() {
         return (
@@ -40,15 +61,19 @@ class Login extends Component {
                     <Input
                         placeholder="Login"
                         id="login"
-                        value={this.state.login}
-                        onChange={event => this.inputChangedHandler(event, "login")}
+                        value={this.state.login.value}
+                        onChange={this.inputChangedHandler}
+                        changed={this.state.login.changed}
+                        valid={this.state.login.valid}
                     />
                     <Input
                         placeholder="password"
                         type="password"
                         id="password"
-                        value={this.state.password}
-                        onChange={event => this.inputChangedHandler(event, "password")}
+                        value={this.state.password.value}
+                        onChange={this.inputChangedHandler}
+                        changed={this.state.password.changed}
+                        valid={this.state.password.valid}
                     />
                     <FlatButton type="submit">Login</FlatButton><br />
                 </form>

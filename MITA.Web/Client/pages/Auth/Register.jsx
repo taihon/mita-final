@@ -8,16 +8,52 @@ import { FlatButton } from '../../components/flatbutton/FlatButton';
 import * as actions from '../../store/actions';
 import Input from '../../components/input/Input';
 import extProviderConfig from '../../store/extProviderConfig';
+import { validate } from '../../components/validate';
 
 class Register extends Component {
     state = {
         googleToken: null,
-        password: { value: "" },
-        confirmpassword: { value: "" },
-        email: { value: "" },
+        password: {
+            value: "",
+            validation: {
+                required: true,
+                hasNumbers: true,
+                hasLower: true,
+                hasUpper: true,
+                hasSpecials: true,
+            },
+            valid: false,
+            changed: false,
+        },
+        confirmpassword: {
+            value: "",
+            validation: {
+                required: true,
+                hasNumbers: true,
+                hasLower: true,
+                hasUpper: true,
+                hasSpecials: true,
+            },
+            changed: false,
+            valid: false,
+        },
+        email: {
+            value: "",
+            validation: {
+                required: true,
+                isEmail: true,
+            },
+            valid: false,
+            changed: false,
+        },
     }
-    onChangeHandler = event =>
-        this.setState({ [event.target.id]: { value: event.target.value } });
+    onChangeHandler = (event) => {
+        const control = this.state[event.target.id];
+        control.valid = validate(event.target.value, control.validation);
+        control.value = event.target.value;
+        control.changed = true;
+        this.setState({ [event.target.id]: control });
+    }
     onGoogleSuccess = (response) => {
         const token = response.tokenObj.id_token;
         const tokenData = decode(token);
@@ -48,18 +84,24 @@ class Register extends Component {
                     placeholder="Your E-mail address"
                     id="email"
                     onChange={this.onChangeHandler}
+                    valid={this.state.email.valid}
+                    changed={this.state.email.changed}
                 />
                 <Input
                     placeholder="Password"
                     id="password"
                     type="password"
                     onChange={this.onChangeHandler}
+                    valid={this.state.password.valid}
+                    changed={this.state.password.changed}
                 />
                 <Input
                     placeholder="Re-enter password"
                     id="confirmpassword"
                     type="password"
                     onChange={this.onChangeHandler}
+                    valid={this.state.confirmpassword.valid}
+                    changed={this.state.confirmpassword.changed}
                 />
                 <FlatButton
                     style={{ width: '100%', marginLeft: 0, marginTop: 0 }}

@@ -9,7 +9,7 @@ const Input = styled.input`
             &:placeholder{
                 color: #eee;
             }
-            ${props => !props.valid && `
+            ${props => !props.valid && props.changed && `
             border:3px solid red;
             background-color: #fda49a;
             `}

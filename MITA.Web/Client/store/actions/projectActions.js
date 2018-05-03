@@ -6,7 +6,6 @@ export const requestProjects = apiToken => (dispatch, getState) => {
     dispatch({ type: actionTypes.FETCH_PROJECTS_START });
     // because of way react renders components
     const token = localStorage.getItem("token");
-    console.log(`token: ${token}`);
     axios.get("/api/projects", {
         headers: { Authorization: `Bearer ${token}` },
     })
@@ -28,7 +27,6 @@ export const createProject = (title, description, token) => (dispatch) => {
 };
 export const importProject = (project, token) => (dispatch) => {
     dispatch({ type: "IMPORT_PROJECT_START" });
-    console.log(project);
     axios
         .post("/api/projects/import", project, { headers: { Authorization: `Bearer ${token}` } })
         .then(response => console.log(response.data))
@@ -65,9 +63,6 @@ export const fetchProjectDetails = (projectId, token) => (dispatch) => {
 };
 export const addTaskToProject = (projectId, data, token) => (dispatch) => {
     dispatch({ type: actionTypes.ADD_TASK_START });
-    console.log('====================================');
-    console.log(data);
-    console.log('====================================');
     const config = { headers: { Authorization: `Bearer ${token}` } };
     axios
         .post(`/api/projects/${projectId}/tasks`, data, config)

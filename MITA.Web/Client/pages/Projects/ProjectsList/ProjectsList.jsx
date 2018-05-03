@@ -6,6 +6,7 @@ import { Project } from './../Project/Project';
 import * as actions from '../../../store/actions';
 import { Spinner } from '../../../components/spinner/Spinner';
 import { Modal } from '../../../components/modal/Modal';
+import { FlatButton } from '../../../components/flatbutton/FlatButton';
 
 class ProjectsList extends Component {
     state = {
@@ -34,11 +35,14 @@ class ProjectsList extends Component {
             : this.props.projects.map((item) => {
                 const controls = (
                     <Fragment>
-                        <button onClick={() => this.editProjectHandler(item.id)}>&#9998;</button>
-                        <button onClick={() =>
+                        <FlatButton onClick={() =>
+                            this.editProjectHandler(item.id)}
+                        >&#9998;
+                        </FlatButton>
+                        <FlatButton onClick={() =>
                             this.requestProjectArchiveHandler(item.id)}
                         >Archive
-                        </button>
+                        </FlatButton>
                     </Fragment>);
                 const title = (
                     <Fragment>
@@ -58,7 +62,7 @@ class ProjectsList extends Component {
                     Are you sure you want to move this project to archive?
                 </Modal>
                 <h4>This is list of your actve projects</h4>
-                <NavLink to={`${this.props.location.pathname}/add`}><button>Create new</button></NavLink>
+                <FlatButton onClick={() => this.props.history.push(`${this.props.location.pathname}/add`)}>Create new</FlatButton>
                 {content}
             </div >
         );

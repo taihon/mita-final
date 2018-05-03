@@ -7,6 +7,11 @@ width: 100%;
 box-sizing: border-box;
 background:white;
 `;
+const Title = Presenter.extend`
+display:flex;
+justify-content: space-evenly;
+align-items:center;
+`;
 export const Project = (props) => {
     // workaround
     let { description } = props;
@@ -17,7 +22,7 @@ export const Project = (props) => {
     }
     return (
         <Presenter>
-            <span>{props.title}{props.controls}</span>
+            <Title>{props.title}{props.controls}</Title>
             <ReactMarkdown source={description} skipHtml />
         </Presenter>
     );

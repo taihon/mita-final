@@ -20,4 +20,4 @@ export const ToolBar = (props) => {
     return (
         <Bar><NavItems IsAuthenticated={props.IsAuthenticated} /></Bar>
     );
-}
+};

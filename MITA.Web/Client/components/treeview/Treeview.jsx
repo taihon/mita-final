@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Treeview = (props) => {
+export const Treeview = (props) => {
     const childs = (props.childrens && props.childrens.length > 0)
         ? props.childrens.map(child =>
             (
@@ -20,5 +20,3 @@ const Treeview = (props) => {
         </React.Fragment >
     );
 };
-
-export default Treeview;

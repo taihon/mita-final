@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from "react-redux";
 
-import { Spinner } from '../../../components/spinner/Spinner';
+import { Spinner, Modal, Treeview, FlatButton } from '../../../components';
 import * as actions from '../../../store/actions';
-import Treeview from '../../../components/treeview/Treeview';
 import { Project } from '../Project/Project';
-import { Modal } from '../../../components/modal/Modal';
 
 class ProjectDetails extends Component {
     state = {
@@ -68,11 +66,11 @@ class ProjectDetails extends Component {
         const additionals = (id, completed = false) => (
             <Fragment>
                 {!completed &&
-                    <button onClick={() => this.handleCompleteTask(id)}>Completed</button>
+                    <FlatButton onClick={() => this.handleCompleteTask(id)}>Completed</FlatButton>
                 }
-                <button onClick={() => this.handleAddSubTask(id)}>Add subtask</button>
-                <button onClick={() => this.handleEditTask(id)}>Edit</button>
-                <button onClick={() => this.onShowRemoveTaskRequest(id)}>Delete</button>
+                <FlatButton onClick={() => this.handleAddSubTask(id)}>Add subtask</FlatButton>
+                <FlatButton onClick={() => this.handleEditTask(id)}>Edit</FlatButton>
+                <FlatButton onClick={() => this.onShowRemoveTaskRequest(id)}>Delete</FlatButton>
             </Fragment>
         );
         return (
@@ -98,7 +96,7 @@ class ProjectDetails extends Component {
                                         additionals={additionals}
                                     />))) || null}
                         </ul>
-                        <button onClick={() => this.props.history.push(`${this.props.location.pathname}/tasks/add`)}>Add new task</button>
+                        <FlatButton onClick={() => this.props.history.push(`${this.props.location.pathname}/tasks/add`)}>Add new task</FlatButton>
                     </Fragment>
                 }
             </Fragment>

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import { Spinner } from "../spinner/Spinner";
-import Treeview from '../treeview/Treeview';
+import { Treeview } from '../treeview/Treeview';
+import { FlatButton } from '../flatbutton/FlatButton';
 
 export class Toggleable extends Component {
     state = {}
@@ -28,13 +29,12 @@ export class Toggleable extends Component {
                     <React.Fragment>
                         {this.props.items.items.map(item => (
                             <ul key={item.id} style={{ borderLeft: 'dotted 1px' }}><Treeview {...item} /></ul>
-
                         ))}
-                        <button onClick={() =>
+                        <FlatButton onClick={() =>
                             this.props.onImportHandler(this.props.id)}
                         >
                             import
-                        </button>
+                        </FlatButton>
                     </React.Fragment>
                 );
             }

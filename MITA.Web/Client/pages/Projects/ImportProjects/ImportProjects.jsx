@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Page } from '../../../components/page/Page';
 import * as actions from '../../../store/actions';
 import { Toggleable } from '../../../components/toggleable/Toggleable';
+import { FlatButton } from '../../../components';
 
 class ImportProjects extends Component {
     state = {}
@@ -55,7 +56,7 @@ class ImportProjects extends Component {
             ? (
                 <React.Fragment>
                     <p>First you need to login to Todoist service</p>
-                    <button onClick={() => this.handleBeginAuth()}>Login!</button>
+                    <FlatButton onClick={() => this.handleBeginAuth()}>Login!</FlatButton>
                 </React.Fragment>
             )
             : null;

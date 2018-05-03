@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { colors } from '../styles';
+import { FlatButton } from '../flatbutton/FlatButton';
 
 const Backdrop = styled.div`
 position:fixed;
@@ -29,8 +30,8 @@ export const Modal = props => (
         <ModalContent>
             {props.children}
             <br />
-            <button onClick={props.onOk}>OK</button>
-            <button onClick={props.onCancel}>Cancel</button>
+            <FlatButton onClick={props.onOk}>OK</FlatButton>
+            <FlatButton onClick={props.onCancel}>Cancel</FlatButton>
         </ModalContent>
     </Backdrop>
 );

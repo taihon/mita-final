@@ -9,6 +9,7 @@ import { Spinner } from "./spinner/Spinner";
 import { TextArea } from "./textarea/TextArea";
 import { Toggleable } from "./toggleable/Toggleable";
 import { Treeview } from "./treeview/Treeview";
+import { TreeWrapper } from "./treeview/TreeWrapper";
 import * as styles from "./styles";
 import { validate, validateFormInState } from "./validate";
 import { SideDrawer } from "./navigation/sidedrawer/SideDrawer";
@@ -27,6 +28,7 @@ export {
     Toggleable,
     ToolBar,
     Treeview,
+    TreeWrapper,
     validate,
     validateFormInState,
 };

@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import styled from 'styled-components';
 import { connect } from "react-redux";
 
-import { Spinner, Modal, Treeview, FlatButton } from '../../../components';
+import { Spinner, Modal, Treeview, FlatButton, TreeWrapper } from '../../../components';
 import * as actions from '../../../store/actions';
 import { Project } from '../Project/Project';
 
@@ -12,38 +11,6 @@ height: 32px;
 display:flex;
 justify-content:center;
 align-items:center;
-`;
-const Treee = styled.div`
-&, & ul, & li{
-    position: relative
-}
-& ul { 
-    list-style:none;
-    padding-left: 32px;
-}
-& li::before, & li::after {
-    content: "";
-    position: absolute;
-    left: -12px;
-}
-& li::before {
-    border-top: 1px solid black;
-    top: 9px;
-    width: 8px;
-    height: 0;
-}
-& li::after {
-    border-left: 1px solid black;
-    height: 100%;
-    width: 0;
-    top: 2px;
-}
-& ul > li:last-child::after{
-    height: 8px;
-}
-& li > div{
-    border: 1px solid black;
-}
 `;
 class ProjectDetails extends Component {
     state = {
@@ -134,7 +101,7 @@ class ProjectDetails extends Component {
                     <Fragment>
                         <Project {...project} />
                         <p>Tasks:</p>
-                        <Treee>
+                        <TreeWrapper>
                             <ul>
                                 {(project && project.items
                                     && project.items.map(item => (
@@ -144,7 +111,7 @@ class ProjectDetails extends Component {
                                             additionals={additionals}
                                         />))) || null}
                             </ul>
-                        </Treee>
+                        </TreeWrapper>
                         <FlatButton onClick={() => this.props.history.push(`${this.props.location.pathname}/tasks/add`)}>Add new task</FlatButton>
                     </Fragment>
                 }

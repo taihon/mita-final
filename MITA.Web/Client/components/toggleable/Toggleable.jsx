@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { Spinner } from "../spinner/Spinner";
 import { Treeview } from '../treeview/Treeview';
 import { FlatButton } from '../flatbutton/FlatButton';
+import { TreeWrapper } from '..';
 
 export class Toggleable extends Component {
     state = {}
@@ -26,7 +27,7 @@ export class Toggleable extends Component {
                 projectDetails = <Spinner />;
             } else {
                 projectDetails = (
-                    <React.Fragment>
+                    <TreeWrapper>
                         {this.props.items.items.map(item => (
                             <ul key={item.id} style={{ borderLeft: 'dotted 1px' }}><Treeview {...item} /></ul>
                         ))}
@@ -35,7 +36,7 @@ export class Toggleable extends Component {
                         >
                             import
                         </FlatButton>
-                    </React.Fragment>
+                    </TreeWrapper>
                 );
             }
         }

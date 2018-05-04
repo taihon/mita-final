@@ -4,17 +4,20 @@ export const Treeview = (props) => {
     const childs = (props.childrens && props.childrens.length > 0)
         ? props.childrens.map(child =>
             (
-                <ul key={child.id} >
-                    <Treeview
-                        additionals={props.additionals}
-                        {...child}
-                    />
-                </ul>
+                <Treeview
+                    additionals={props.additionals}
+                    {...child}
+                    key={child.id}
+                />
             ))
         : null;
     return (
         <React.Fragment>
-            <li style={{ textDecoration: props.completed ? 'line-through' : 'none' }}>
+            <li style={{
+                backgroundColor: props.completed ? '#ccc' : 'none',
+                color: props.completed ? '#999' : '#000',
+            }}
+            >
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <div style={{ flexGrow: 1 }}>{props.title}</div>
                     <div style={{ flexGrow: 0, flexDirection: 'row', display: 'flex' }}>
@@ -22,7 +25,9 @@ export const Treeview = (props) => {
                             && props.additionals(props.id, props.completed)}
                     </div>
                 </div>
-                {childs}
+                {childs 
+                && (<ul>{childs}</ul>)
+                }
             </li>
         </React.Fragment >
     );

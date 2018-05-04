@@ -21,6 +21,11 @@ class AddTask extends Component {
                 value: new Date(new Date()
                     .setDate(new Date().getDate() + 1))
                     .toISOString().slice(0, 10),
+                valid: false,
+                changed: false,
+                validation: {
+                    notBeforeToday:true,
+                },
             },
             priority: { value: 0 },
             formIsValid: false,
@@ -68,6 +73,8 @@ class AddTask extends Component {
                     id="dueDate"
                     onChange={this.onChangeHandler}
                     value={this.state.form.dueDate.value}
+                    valid={this.state.form.dueDate.valid}
+                    changed={this.state.form.dueDate.changed}
                 />
                 <Select id="priority" value={this.state.form.priority.value} onChange={this.onChangeHandler}>
                     <option value="-1">Low</option>

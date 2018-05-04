@@ -1,7 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavItems } from '../navItems/NavItems';
+import { DrawerToggle } from '../..';
 
+const DesktopOnly = styled.div`
+height:100%;
+@media(max-width: 499px){
+    display:none;
+}
+`;
 export const ToolBar = (props) => {
     const Bar = styled.div`
         height: 56px;
@@ -18,6 +25,11 @@ export const ToolBar = (props) => {
         z-index: 90;
     `;
     return (
-        <Bar><NavItems IsAuthenticated={props.IsAuthenticated} /></Bar>
+        <Bar>
+            <DrawerToggle clicked={props.toggleDrawer} />
+            <DesktopOnly>
+                <NavItems IsAuthenticated={props.IsAuthenticated} />
+            </DesktopOnly>
+        </Bar>
     );
 };

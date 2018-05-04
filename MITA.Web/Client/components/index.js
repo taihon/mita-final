@@ -1,3 +1,4 @@
+import { DrawerToggle } from "./navigation/drawertoggle/DrawerToggle";
 import { FlatButton } from "./flatbutton/FlatButton";
 import Input from "./input/Input";
 import { Modal } from "./modal/Modal";
@@ -10,13 +11,16 @@ import { Toggleable } from "./toggleable/Toggleable";
 import { Treeview } from "./treeview/Treeview";
 import * as styles from "./styles";
 import { validate, validateFormInState } from "./validate";
+import { SideDrawer } from "./navigation/sidedrawer/SideDrawer";
 
 export {
+    DrawerToggle,
     FlatButton,
     Input,
     Modal,
     Page,
     Select,
+    SideDrawer,
     Spinner,
     styles,
     TextArea,

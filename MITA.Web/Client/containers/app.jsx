@@ -7,10 +7,20 @@ import { ToolBar } from '../components/navigation/toolbar/Toolbar';
 import '../app.css';
 import { Login, Logout, Register } from '../pages/Auth';
 import { checkAuthStatus } from '../store/actions';
+import { SideDrawer } from '../components';
 
 class App extends Component {
+    state = {
+        showDrawer: false,
+    }
     componentDidMount() {
         this.props.tryAutoLogin();
+    }
+    toggleDrawer = () => {
+        this.setState(prevState => ({ showDrawer: !prevState.showDrawer }));
+    }
+    closeDrawer = () => {
+        this.setState({ showDrawer: false });
     }
     render() {
         let routes = (
@@ -31,12 +41,20 @@ class App extends Component {
         }
         return (
             <div className="App">
-                <ToolBar IsAuthenticated={this.props.isAuthenticated} />
+                <ToolBar
+                    IsAuthenticated={this.props.isAuthenticated}
+                    toggleDrawer={this.toggleDrawer}
+                />
+                <SideDrawer
+                    IsAuthenticated={this.props.isAuthenticated}
+                    show={this.state.showDrawer}
+                    closed={this.closeDrawer}
+                />
                 <Switch>
                     {routes}
                     <Redirect to="/" />
                 </Switch>
-            </div>
+            </div >
         );
     }
 }

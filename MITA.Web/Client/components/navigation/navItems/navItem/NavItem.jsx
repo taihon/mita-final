@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import React, { Component } from 'react';
+import React from 'react';
 import { NavLink } from "react-router-dom";
+
 const StyledNavLink = styled(NavLink) `
         margin: 24px 10px 20px 10px;
         padding: 14px 20px 20px 20px;
@@ -12,7 +13,10 @@ const StyledNavLink = styled(NavLink) `
             background: #eee;
             color: #455a64;
         }
+        @media(max-width: 499px){
+            width:100%;
+        }
 `;
 export const NavItem = props => (
     <StyledNavLink to={props.to} exact={props.exact}>{props.title}</StyledNavLink>
-)
+);

@@ -6,15 +6,13 @@ import { NavItem } from "./navItem/NavItem";
 const ItemsList = styled.ul`
             margin: 0;
             padding: 0;
-            list-style-type: none;
+            list-style: none;
             display: flex;
             align-items: center;
             height: 100%;
             flex-flow: column;
             @media (min-width: 500px){
                 flex-flow: row;
-                width:100%;
-                justify-content:flex-end;
             }
         `;
 export class NavItems extends Component {

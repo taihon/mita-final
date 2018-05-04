@@ -57,7 +57,7 @@ class EditTask extends Component {
             id,
             projectId,
         } = this.state;
-        this.props.onSave({ id, projectId, title, dueDate, priority }, token);
+        this.props.onSave({ id, projectId, title, dueDate, priority,callback:this.returnToList }, token);
     }
     returnToList = () => {
         this.props.history.goBack();

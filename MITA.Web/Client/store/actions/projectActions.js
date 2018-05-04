@@ -75,9 +75,13 @@ export const saveTask = (data, token) => (dispatch) => {
     const config = { headers: { Authorization: `Bearer ${token}` } };
     axios
         .put(`/api/projects/${data.projectId}/tasks/${data.id}`, data, config)
-        .then(response => console.log(response))
+        .then(response => dispatch({
+             type: actionTypes.SAVE_TASK_SUCCESS, 
+             payload: {projectId: data.projectId, id: response.data.id}
+            }))
+        .then(()=>data.callback&& data.callback())
         .catch(e => console.log(e));
-    dispatch({ type: actionTypes.SAVE_TASK_SUCCESS });
+    
 };
 export const deleteTask = (taskId, projectId, token) => (dispatch) => {
     dispatch({ type: actionTypes.DELETE_TASK_START });

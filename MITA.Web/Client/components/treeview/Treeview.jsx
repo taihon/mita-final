@@ -14,10 +14,13 @@ export const Treeview = (props) => {
         : null;
     return (
         <React.Fragment>
-            <li style={{ borderBottom: 'dotted 1px', textDecoration: props.completed ? 'line-through' : 'none' }}>
-                <div>
-                    <div>{props.title}</div>
-                    {props.additionals && props.additionals(props.id, props.completed)}
+            <li style={{ textDecoration: props.completed ? 'line-through' : 'none' }}>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ flexGrow: 1 }}>{props.title}</div>
+                    <div style={{ flexGrow: 0, flexDirection: 'row', display: 'flex' }}>
+                        {props.additionals
+                            && props.additionals(props.id, props.completed)}
+                    </div>
                 </div>
                 {childs}
             </li>

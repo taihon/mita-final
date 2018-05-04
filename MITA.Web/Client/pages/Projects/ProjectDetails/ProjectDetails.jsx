@@ -13,11 +13,37 @@ display:flex;
 justify-content:center;
 align-items:center;
 `;
-const ButtonWrapper = styled.div`
-display:flex;
-flex-direction: row;
-align-items:center;
-justify-content:center;
+const Treee = styled.div`
+&, & ul, & li{
+    position: relative
+}
+& ul { 
+    list-style:none;
+    padding-left: 32px;
+}
+& li::before, & li::after {
+    content: "";
+    position: absolute;
+    left: -12px;
+}
+& li::before {
+    border-top: 1px solid black;
+    top: 9px;
+    width: 8px;
+    height: 0;
+}
+& li::after {
+    border-left: 1px solid black;
+    height: 100%;
+    width: 0;
+    top: 2px;
+}
+& ul > li:last-child::after{
+    height: 8px;
+}
+& li > div{
+    border: 1px solid black;
+}
 `;
 class ProjectDetails extends Component {
     state = {
@@ -81,14 +107,17 @@ class ProjectDetails extends Component {
         const projId = parseInt(this.props.match.params.projectId, 10);
         const project = !Number.isNaN(projId) && this.props.projects.find(p => p.id === projId);
         const additionals = (id, completed = false) => (
-            <ButtonWrapper>
+            <Fragment>
                 {!completed &&
-                    <SquareButton onClick={() => this.handleCompleteTask(id)}>&#10003;</SquareButton>
+                    <SquareButton
+                        onClick={() => this.handleCompleteTask(id)}
+                    >&#10003;
+                    </SquareButton>
                 }
                 <SquareButton onClick={() => this.handleAddSubTask(id)}>+</SquareButton>
                 <SquareButton onClick={() => this.handleEditTask(id)}>&#9998;</SquareButton>
                 <SquareButton onClick={() => this.onShowRemoveTaskRequest(id)}>X</SquareButton>
-            </ButtonWrapper>
+            </Fragment>
         );
         return (
             <Fragment>
@@ -105,15 +134,17 @@ class ProjectDetails extends Component {
                     <Fragment>
                         <Project {...project} />
                         <p>Tasks:</p>
-                        <ul>
-                            {(project && project.items
-                                && project.items.map(item => (
-                                    <Treeview
-                                        key={item.id}
-                                        {...item}
-                                        additionals={additionals}
-                                    />))) || null}
-                        </ul>
+                        <Treee>
+                            <ul>
+                                {(project && project.items
+                                    && project.items.map(item => (
+                                        <Treeview
+                                            key={item.id}
+                                            {...item}
+                                            additionals={additionals}
+                                        />))) || null}
+                            </ul>
+                        </Treee>
                         <FlatButton onClick={() => this.props.history.push(`${this.props.location.pathname}/tasks/add`)}>Add new task</FlatButton>
                     </Fragment>
                 }

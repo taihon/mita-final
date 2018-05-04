@@ -15,8 +15,10 @@ export const Treeview = (props) => {
     return (
         <React.Fragment>
             <li style={{ borderBottom: 'dotted 1px', textDecoration: props.completed ? 'line-through' : 'none' }}>
-                {props.title}
-                {props.additionals && props.additionals(props.id, props.completed)}
+                <div>
+                    <div>{props.title}</div>
+                    {props.additionals && props.additionals(props.id, props.completed)}
+                </div>
                 {childs}
             </li>
         </React.Fragment >

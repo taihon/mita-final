@@ -1,10 +1,24 @@
 import React, { Component, Fragment } from 'react';
+import styled from 'styled-components';
 import { connect } from "react-redux";
 
 import { Spinner, Modal, Treeview, FlatButton } from '../../../components';
 import * as actions from '../../../store/actions';
 import { Project } from '../Project/Project';
 
+const SquareButton = FlatButton.extend`
+width: 32px;
+height: 32px;
+display:flex;
+justify-content:center;
+align-items:center;
+`;
+const ButtonWrapper = styled.div`
+display:flex;
+flex-direction: row;
+align-items:center;
+justify-content:center;
+`;
 class ProjectDetails extends Component {
     state = {
         showRemoveTaskRequest: false,
@@ -67,14 +81,14 @@ class ProjectDetails extends Component {
         const projId = parseInt(this.props.match.params.projectId, 10);
         const project = !Number.isNaN(projId) && this.props.projects.find(p => p.id === projId);
         const additionals = (id, completed = false) => (
-            <Fragment>
+            <ButtonWrapper>
                 {!completed &&
-                    <FlatButton onClick={() => this.handleCompleteTask(id)}>Completed</FlatButton>
+                    <SquareButton onClick={() => this.handleCompleteTask(id)}>&#10003;</SquareButton>
                 }
-                <FlatButton onClick={() => this.handleAddSubTask(id)}>Add subtask</FlatButton>
-                <FlatButton onClick={() => this.handleEditTask(id)}>Edit</FlatButton>
-                <FlatButton onClick={() => this.onShowRemoveTaskRequest(id)}>Delete</FlatButton>
-            </Fragment>
+                <SquareButton onClick={() => this.handleAddSubTask(id)}>+</SquareButton>
+                <SquareButton onClick={() => this.handleEditTask(id)}>&#9998;</SquareButton>
+                <SquareButton onClick={() => this.onShowRemoveTaskRequest(id)}>X</SquareButton>
+            </ButtonWrapper>
         );
         return (
             <Fragment>

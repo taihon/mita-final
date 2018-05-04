@@ -76,12 +76,11 @@ export const saveTask = (data, token) => (dispatch) => {
     axios
         .put(`/api/projects/${data.projectId}/tasks/${data.id}`, data, config)
         .then(response => dispatch({
-             type: actionTypes.SAVE_TASK_SUCCESS, 
-             payload: {projectId: data.projectId, id: response.data.id}
-            }))
-        .then(()=>data.callback&& data.callback())
+            type: actionTypes.SAVE_TASK_SUCCESS,
+            payload: { projectId: data.projectId, id: response.data.id },
+        }))
+        .then(() => data.callback && data.callback())
         .catch(e => console.log(e));
-    
 };
 export const deleteTask = (taskId, projectId, token) => (dispatch) => {
     dispatch({ type: actionTypes.DELETE_TASK_START });

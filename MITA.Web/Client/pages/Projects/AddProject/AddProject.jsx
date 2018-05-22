@@ -82,6 +82,6 @@ const mapStateToProps = state => ({
     authToken: state.auth.token,
 });
 const mapDispatchToProps = dispatch => ({
-    onCreateProject: (title, description) => dispatch(actions.createProject(title, description)),
+    onCreateProject: (title, description, authToken) => dispatch(actions.createProject(title, description, authToken)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(AddProject);
